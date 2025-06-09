@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { mockIngredients } from "../mock/filtered-tabs";
+import { mockIngredients } from "../mock/mock-filtered-tabs";
 
 interface MainPageStore {
   defaultCount: number;
@@ -8,7 +8,7 @@ interface MainPageStore {
   maxPageCount: number;
   isShowAllGradient: boolean;
   searchElement: string;
-  setEnteredValueSearchedElement: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  setEnteredValueSearchedElement: (value: string) => void;
   setSelectedPageIndex: (index: number) => void;
   incrementSelectedPageIndex: () => void;
   decrementSelectedPageIndex: () => void;
@@ -25,9 +25,9 @@ export const useMainPageStore = create<MainPageStore>((set, get) => ({
   isShowAllGradient: false,
   searchElement: "",
 
-  setEnteredValueSearchedElement: (e) => {
+  setEnteredValueSearchedElement: (value) => {
     set({
-      searchElement: e.target.value,
+      searchElement: value,
     });
   },
 

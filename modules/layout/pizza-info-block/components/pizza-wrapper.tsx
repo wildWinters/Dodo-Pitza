@@ -5,15 +5,21 @@ import { cn } from "@/lib/utils";
 import { nunito700 } from "@/font/fonts";
 import { IBasedProps } from "../../footer/footer";
 import { Button } from "@/ui/button";
+import { forwardRef  } from "react";
 
-// Обгортка карточки піци
-export const PizzaWrapper: React.FC<IBasedProps> = ({ children, className }) => (
-  <div className={cn("min-h-[430px] flex flex-col gap-[15px]", className)}>
-    {children}
-  </div>
+export const PizzaWrapper = forwardRef<HTMLDivElement, IBasedProps>(
+  ({ children, className, ...props }, ref) => (
+    <div
+      ref={ref}
+      className={cn("min-h-[430px] flex flex-col gap-[15px]", className)}
+      {...props}
+    >
+      {children}
+    </div>
+  )
 );
+PizzaWrapper.displayName = "PizzaWrapper";
 
-// Блок зображення піци з іконкою налаштувань
 export const PizzaImageBlock: React.FC<{
   className?: string;
   src: string;

@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
-export interface IBasedProps{
+import React from "react";
+export interface IBasedProps extends React.HTMLAttributes<HTMLDivElement> {
 children: ReactNode;
-className: string;
+className?: string;
 }
