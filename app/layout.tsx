@@ -31,9 +31,9 @@ export default function RootLayout({
                 <Header.InputContainer/>
                 <Header.RegistrationPanel/>
               </Header>   
-          <div className='flex items-start justify-start flex-col mx-[67px]'>
+          <main className='flex items-start justify-start flex-col mx-[67px]'>
             {children}
-          </div>
+          </main>
       </body>
     </html>
   );

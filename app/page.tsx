@@ -8,7 +8,7 @@ import {
 import { Tabs, TabsList, TabsTrigger } from "@/ui/tabs";
 import { Input } from "@/ui/input";
 import { cn } from "@/lib/utils";
-import {
+import { 
   nunito400,
   nunito700,
   nunito4,
@@ -23,7 +23,6 @@ import { mockRadioGroup } from "@/modules/main-page/mock/mock-filtered-tabss-rad
 import { mockTabs } from "@/modules/main-page/mock/mock-tabs";
 import { Button } from "@/ui/button";
 import { inputsData } from "@/modules/main-page/mock/mock-input-data";
-import { useMainPageStore } from "@/modules/main-page/store/use-main-page.store";
 import {
   Pagination,
   PaginationContent,
@@ -37,28 +36,28 @@ import {
   PizzaPriceBlock,
 } from "@/modules/layout/pizza-info-block/components/pizza-wrapper";
 import { useRef } from "react";
+import { useMainPageStoreHook } from "@/modules/main-page/hook/use-main-page.hook";
+import { useEffect } from "react";
 
 export default function Home() {
-  const defaultCount = useMainPageStore((state) => state.defaultCount);
-  const currentPageIndex = useMainPageStore((state) => state.currentPageIndex);
   const pitzaBlockRef = useRef<(HTMLDivElement | null)[]>([]);
+    const  { 
+      defaultCount,
+      currentPageIndex,
+      incrementCurrentPageIndex,
+      decrementCurrentPageIndex,
+      isShowAllGradient,
+      maxPageIndex,
+      toggleBetweenPartAndAllGradients,
+      searchElement,
+      setEnteredValueSearchedElement,
+    } = useMainPageStoreHook();
 
-  const incrementCurrentPageIndex = useMainPageStore(
-    (state) => state.incrementCurrentPageIndex
-  );
-  const decrementCurrentPageIndex = useMainPageStore(
-    (state) => state.decrementCurrentPageIndex
-  );
-  const maxPageIndex = useMainPageStore((state) => state.maxPageCount);
-  const toggleBetweenPartAndAllGradients = useMainPageStore(
-    (state) => state.toggleBetweenPartAndAllGradients
-  );
-  const isShowAllGradient = useMainPageStore((state) => state.isShowAllGradient);
-  const searchElement = useMainPageStore((state) => state.searchElement);
-  const setEnteredValueSearchedElement = useMainPageStore(
-    (state) => state.setEnteredValueSearchedElement
-  );
-  const containerRef = useRef<HTMLDivElement | null>(null);
+useEffect(() => { 
+  console.log("комопннет ззмонтований");
+},);
+
+const containerRef = useRef<HTMLDivElement | null>(null);
   return (
     <>
       <div className="rounded-[30px] flex items-center w-full justify-between my-[42px] gap-[50px] border-b border-b-[rgba(237,237,237,1)]">
@@ -80,7 +79,6 @@ export default function Home() {
                     <ChevronDown className="ml-1 w-[10px] h-[10px]" strokeWidth={2.5} />
                   )}
                 </TabsTrigger>
-
                 ))}
               </TabsList>
             </Tabs>

@@ -32,3 +32,14 @@ model Product {
     createAt DateTime @default (now())
     updateAt DateTime @updateAt
 }
+
+
+model Category {
+    id Int @id @default (autoincrement())
+    name String @unique 
+    products Product[]
+    name String 
+    imageURL String
+    createAt DateTime  @default(now())
+    updateAt DateTime 
+}

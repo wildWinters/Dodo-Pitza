@@ -1,0 +1,1 @@
+export smth from "file.tsx"
