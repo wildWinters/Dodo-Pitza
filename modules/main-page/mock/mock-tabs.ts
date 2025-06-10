@@ -1,9 +1,12 @@
+export type modeTabs = "All" | "Meat" | "Spicy" | "Sweet" | "Vegetarian" | "Chicken" | "More"; 
 export const mockTabs = [
-  { id: 1, label: "All", value: "all" },
-  { id: 2, label: "Meat", value: "meat" },
-  { id: 3, label: "Spicy", value: "spicy" },
-  { id: 4, label: "Sweet", value: "sweet" },
-  { id: 5, label: "Vegetarian", value: "vegetarian" },
-  { id: 6, label: "Chicken", value: "chicken" },
-  { id: 7, label: "More", value: "more" }
+  { id: "all", label: "All", value: "all" },
+  { id: "meat", label: "Meat", value: "meat" },
+  { id: "spicy", label: "Spicy", value: "spicy" },
+  { id: "sweet", label: "Sweet", value: "sweet" },
+  { id: "vegetarian", label: "Vegetarian", value: "vegetarian" },
+  { id: "chicken", label: "Chicken", value: "chicken" },
+  { id: "more", label: "More", value: "more" }
 ];
+
+

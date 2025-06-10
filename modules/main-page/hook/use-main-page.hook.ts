@@ -13,8 +13,11 @@ export function useMainPageStoreHook() {
   const toggleBetweenPartAndAllGradients = useMainPageStore((state) => state.toggleBetweenPartAndAllGradients);
   const setEnteredValueSearchedElement = useMainPageStore((state) => state.setEnteredValueSearchedElement);
   const setSelectedPageIndex = useMainPageStore((state) => state.setSelectedPageIndex);
-
+  const scrollId = useMainPageStore(state=>state.scrollId);
+  const setScrollId = useMainPageStore(state=>state.setScrollId);
   return {
+    scrollId,
+    setScrollId,
     defaultCount,
     currentPageIndex,
     selectedPageIndex,

@@ -20,7 +20,7 @@ import { FilterOption } from "@/modules/layout/filtered-panel/components/filter-
 import { RadioFilterBlock } from "@/modules/layout/filtered-panel/components/radio-filter-description";
 import { mockIngredients } from "@/modules/main-page/mock/mock-filtered-tabs";
 import { mockRadioGroup } from "@/modules/main-page/mock/mock-filtered-tabss-radio-group";
-import { mockTabs } from "@/modules/main-page/mock/mock-tabs";
+import { mockTabs, modeTabs } from "@/modules/main-page/mock/mock-tabs";
 import { Button } from "@/ui/button";
 import { inputsData } from "@/modules/main-page/mock/mock-input-data";
 import {
@@ -37,11 +37,16 @@ import {
 } from "@/modules/layout/pizza-info-block/components/pizza-wrapper";
 import { useRef } from "react";
 import { useMainPageStoreHook } from "@/modules/main-page/hook/use-main-page.hook";
-import { useEffect } from "react";
+import { Link, Element } from 'react-scroll';
+import { mockPizzas } from "@/modules/main-page/mock/mock-data-pitza";
+ 
+
 
 export default function Home() {
   const pitzaBlockRef = useRef<(HTMLDivElement | null)[]>([]);
     const  { 
+      scrollId,
+      setScrollId,
       defaultCount,
       currentPageIndex,
       incrementCurrentPageIndex,
@@ -52,33 +57,29 @@ export default function Home() {
       searchElement,
       setEnteredValueSearchedElement,
     } = useMainPageStoreHook();
-
-useEffect(() => { 
-  console.log("комопннет ззмонтований");
-},);
-
+    console.log(scrollId)
+  
 const containerRef = useRef<HTMLDivElement | null>(null);
   return (
     <>
       <div className="rounded-[30px] flex items-center w-full justify-between my-[42px] gap-[50px] border-b border-b-[rgba(237,237,237,1)]">
         <TabLister>
           <div className="flex items-center justify-between w-full py-3">
-            <Tabs className="bg-[rgba(249,250,251,1)] rounded-2xl" defaultValue="account">
+            <Tabs className="bg-[rgba(249,250,251,1)] rounded-2xl" defaultValue="all">
               <TabsList className="flex gap-2 rounded-md px-2 py-1">
                 {mockTabs.map((tab, index) => (
-                <TabsTrigger
-                  key={tab.label}
-                  value={tab.label}
-                  className="px-[16px] py-[6px] text-black"
-                  onClick={() =>
-                    pitzaBlockRef.current[index*5]?.scrollIntoView({ behavior: "smooth", block: "start" })
-                  }
-                >
-                  {tab.label}
-                  {index === mockTabs.length - 1 && (
-                    <ChevronDown className="ml-1 w-[10px] h-[10px]" strokeWidth={2.5} />
-                  )}
-                </TabsTrigger>
+                  <Link key={tab.id} to={index}>
+                    <TabsTrigger
+                      value={tab.value}
+                      className="px-[16px] py-[6px] text-black"
+                      onClick={() => setScrollId(tab.label as modeTabs)}
+                    >
+                      {tab.label}
+                      {index === mockTabs.length - 1 && (
+                        <ChevronDown className="ml-1 w-[10px] h-[10px]" strokeWidth={2.5} />
+                      )}
+                    </TabsTrigger>
+                  </Link>
                 ))}
               </TabsList>
             </Tabs>
@@ -92,32 +93,33 @@ const containerRef = useRef<HTMLDivElement | null>(null);
         </TabLister>
       </div>
 
-      <div className="flex mt-[36px] gap-[48px]">
+
+      <div className="flex mt-[36px]   gap-[48px]">
           <div
             ref={containerRef}
             id="scrollContainer"
-            className="relative order-2 grid h-[900px] grid-cols-3 auto-rows-auto gap-x-[50px] gap-y-[30px] w-full overflow-auto p-4"
+            className=" relative order-2 grid h-[900px] grid-cols-3 auto-rows-auto gap-x-[50px] gap-y-[30px] w-full overflow-auto p-4"
           >
-          {Array.from({ length: 35 }).map((_, index) => (
-            <PizzaWrapper
-              key={index}
-              ref={(el) => {
-                if (el) pitzaBlockRef.current[index] = el;
-              }}
-              className="h-full"
-            >
-              <PizzaImageBlock src="/image 2.png" alt="Сырный цыпленок" />
-              <PizzaDescription>
-                <span className={`${nunito700.className} text-black text-left`}>
-                  Cheesy Chicken
-                </span>
-                <span className={`${nunito400.className} text-[14px] text-[rgba(177,177,177,1)]`}>
-                  Chicken, mozzarella, cheddar and parmesan cheeses, cheese sauce, tomatoes, Alfredo sauce, garlic
-                </span>
-              </PizzaDescription>
-              <PizzaPriceBlock price="259" mode="button" buttonMode="Додати" />
-            </PizzaWrapper>
-          ))}
+        {mockPizzas.map((pizza, index) => (
+          <PizzaWrapper
+            key={index}
+            ref={(el) => {
+              if (el) pitzaBlockRef.current[index] = el;
+            }}
+            className="h-full"
+          >
+            <PizzaImageBlock src={pizza.image} alt={pizza.title} />
+            <PizzaDescription>
+              <span className={`${nunito700.className} text-black text-left`}>
+                {pizza.title}
+              </span>
+              <span className={`${nunito400.className} text-[14px] text-[rgba(177,177,177,1)]`}>
+                {pizza.description}
+              </span>
+            </PizzaDescription>
+            <PizzaPriceBlock price={pizza.price} mode="button" buttonMode="Додати" />
+          </PizzaWrapper>
+        ))}
         </div>
 
         <div className="w-fit h-fit">
@@ -202,6 +204,7 @@ const containerRef = useRef<HTMLDivElement | null>(null);
         </div>
       </div>
 
+
       <div className="flex gap-[40px] w-full mt-[70px] mb-[60px] items-center justify-center">
         <Pagination>
           <PaginationContent>
@@ -229,6 +232,7 @@ const containerRef = useRef<HTMLDivElement | null>(null);
           {currentPageIndex} with {maxPageIndex}
         </span>
       </div>
+
     </>
   );
 }
