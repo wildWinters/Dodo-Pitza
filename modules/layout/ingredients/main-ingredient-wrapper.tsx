@@ -1,29 +1,26 @@
 import { nunito400 } from "@/font/fonts";
 import { cn } from "@/lib/utils";
-import { useMainPageStoreHook } from "@/modules/main-page/hook/use-main-page.hook";
 import { mockIngredients } from "@/modules/main-page/mock/mock-filtered-tabs";
+import { useMainPageStore } from "@/modules/main-page/store/use-main-page.store";
 import { Input } from "@/ui/input";
 import React from "react";
 import { FilterOption } from "../aside-filtered-panel/components/filter-option";
-
 export type TMainIngredientWrapper = {
   className?: string;
 };
-
 export const MainIngredientWrapper: React.FC<TMainIngredientWrapper> = ({ className }) => {
-  const {
-    defaultCount,
-    isShowAllGradient,
-    setEnteredValueSearchedElement,
-    searchElement,
-    toggleBetweenPartAndAllGradients,
-  } = useMainPageStoreHook();
+const defaultCount = useMainPageStore(state => state.defaultCount)
+const isShowAllGradient = useMainPageStore(state => state.isShowAllGradient)
+const setEnteredValueSearchedElement = useMainPageStore(state => state.setEnteredValueSearchedElement)
+const searchElement = useMainPageStore(state => state.searchElement)
+const toggleBetweenPartAndAllGradients = useMainPageStore(state=>state.toggleBetweenPartAndAllGradients)
 
   const filteredIngredients = searchElement
     ? mockIngredients.filter((item) =>
         item.label.toLowerCase().includes(searchElement.trim().toLowerCase())
       )
     : mockIngredients.slice(0, defaultCount);
+
 
   return (
     <div

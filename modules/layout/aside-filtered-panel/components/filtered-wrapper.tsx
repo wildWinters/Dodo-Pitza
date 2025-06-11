@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils"
-import { IBasedProps } from "../../footer/footer"
+import { IBasedProps } from "../../footer/main-footer-wrapper"
 
 
 

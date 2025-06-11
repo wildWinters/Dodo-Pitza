@@ -1,11 +1,10 @@
-import Image from "next/image";
-import { ReactNode, useState } from "react";
-import { Settings2, Minus, Plus } from "lucide-react";
-import { cn } from "@/lib/utils";
 import { nunito700 } from "@/font/fonts";
-import { IBasedProps } from "../../footer/footer";
+import { cn } from "@/lib/utils";
 import { Button } from "@/ui/button";
-import { forwardRef  } from "react";
+import { Minus, Plus, Settings2 } from "lucide-react";
+import Image from "next/image";
+import { forwardRef, ReactNode, useState } from "react";
+import { IBasedProps } from "../../footer/main-footer-wrapper";
 
 export const PizzaWrapper = forwardRef<HTMLDivElement, IBasedProps>(
   ({ children, className, ...props }, ref) => (

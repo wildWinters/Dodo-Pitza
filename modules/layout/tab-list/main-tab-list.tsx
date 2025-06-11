@@ -1,7 +1,7 @@
-import { IBasedProps } from "../footer/footer"
-import { cn } from "@/lib/utils"
-import { DirectionWrapper } from "../wrapper/direction-wrapper"
 import { nunito800 } from "@/font/fonts"
+import { cn } from "@/lib/utils"
+import { IBasedProps } from "../footer/main-footer-wrapper"
+import { DirectionWrapper } from "../wrapper/direction-wrapper"
 
 export const TabLister:React.FC<IBasedProps> = ({children}) =>{ 
 

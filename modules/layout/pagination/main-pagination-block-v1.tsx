@@ -1,21 +1,15 @@
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import React from "react";
-
 import { Pagination, PaginationContent, PaginationItem, PaginationLink } from "@/components/ui/pagination";
 import { cn } from "@/lib/utils";
-import { useMainPageStoreHook } from "@/modules/main-page/hook/use-main-page.hook";
-import { IBasedProps } from "../footer/footer";
-
-// хук пропса чи store 
+import { useMainPageStore } from "@/modules/main-page/store/use-main-page.store";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import React from "react";
+import { IBasedProps } from "../footer/main-footer-wrapper";
 
 export const MainPaginationBlock: React.FC<IBasedProps> = ({ className, ...props }) => {
-  const {
-    decrementCurrentPageIndex,
-    incrementCurrentPageIndex,
-    currentPageIndex
-  } = useMainPageStoreHook();
-
-
+  const decrementCurrentPageIndex = useMainPageStore(state => state.decrementCurrentPageIndex);
+  const incrementCurrentPageIndex  = useMainPageStore(state => state.incrementCurrentPageIndex);
+  const currentPageIndex = useMainPageStore(state => state.currentPageIndex);
+  
   return (
     <div className={cn("flex justify-center  my-[50px] mx-auto items-center", className)} {...props}>
       <Pagination>
@@ -26,7 +20,7 @@ export const MainPaginationBlock: React.FC<IBasedProps> = ({ className, ...props
           >
             <ChevronLeft />
           </PaginationLink>
-          {/* Увага Хардкод  */}
+
           {Array.from({ length: 2 }).map((_, index) => (
             <PaginationItem key={index}>
               <PaginationLink href="#">

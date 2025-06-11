@@ -1,5 +1,4 @@
 "use client";
-
 import { MainComponentFilteredPanel } from "@/modules/layout/aside-filtered-panel/main-component-filtered-panel";
 import { MainPaginationBlock } from "@/modules/layout/pagination/main-pagination-block-v1";
 import { MainPizzaListWrapper } from "@/modules/layout/pizza-info-block/main-pizza-list-wrappe";
@@ -11,17 +10,14 @@ export default function Home() {
   return (
     <>
       <MainComponentsOfTabList />
-
       <div className="w-full flex mt-[36px] gap-[48px]">
         <div id="scrollContainer" className={gridContainerClass}>
           <MainPizzaListWrapper mockRenderPitza={mockPizzas} />
         </div>
-
         <aside className="w-fit h-fit">
           <MainComponentFilteredPanel />
         </aside>
       </div>
-
       <MainPaginationBlock />
     </>
   );
