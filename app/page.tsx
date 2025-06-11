@@ -1,29 +1,4 @@
 "use client";
-import { Link, Element } from "react-scroll";
-import {
-  ChevronDown,
-  ChevronLeft,
-  ChevronRight,
-  ArrowUpDown,
-} from "lucide-react";
-import { Tabs, TabsList, TabsTrigger } from "@/ui/tabs";
-import { Input } from "@/ui/input";
-import { cn } from "@/lib/utils";
-import {
-  nunito400,
-  nunito700,
-  nunito4,
-  nunito600,
-} from "@/font/fonts";
-import { TabLister } from "@/modules/layout/tab-list/tab-list";
-import { FilteredWrapper } from "@/modules/layout/filtered-panel/components/filtered-wrapper";
-import { FilterOption } from "@/modules/layout/filtered-panel/components/filter-option";
-import { RadioFilterBlock } from "@/modules/layout/filtered-panel/components/radio-filter-description";
-import { mockIngredients } from "@/modules/main-page/mock/mock-filtered-tabs";
-import { mockRadioGroup } from "@/modules/main-page/mock/mock-filtered-tabss-radio-group";
-import { mockTabs, modeTabs } from "@/modules/main-page/mock/mock-tabs";
-import { Button } from "@/ui/button";
-import { inputsData } from "@/modules/main-page/mock/mock-input-data";
 import {
   Pagination,
   PaginationContent,
@@ -31,14 +6,35 @@ import {
   PaginationLink,
 } from "@/components/ui/pagination";
 import {
-  PizzaWrapper,
-  PizzaImageBlock,
+  nunito4,
+  nunito400,
+  nunito600,
+  nunito700,
+} from "@/font/fonts";
+import { cn } from "@/lib/utils";
+import { FilterOption } from "@/modules/layout/filtered-panel/components/filter-option";
+import { FilteredWrapper } from "@/modules/layout/filtered-panel/components/filtered-wrapper";
+import { RadioFilterBlock } from "@/modules/layout/filtered-panel/components/radio-filter-description";
+import {
   PizzaDescription,
+  PizzaImageBlock,
   PizzaPriceBlock,
+  PizzaWrapper,
 } from "@/modules/layout/pizza-info-block/components/pizza-wrapper";
-import { useRef } from "react";
+import { MainComponentsOfTabList } from "@/modules/layout/tab-list/main-components-of-tab-lists";
 import { useMainPageStoreHook } from "@/modules/main-page/hook/use-main-page.hook";
 import { mockPizzas } from "@/modules/main-page/mock/mock-data-pitza";
+import { mockIngredients } from "@/modules/main-page/mock/mock-filtered-tabs";
+import { mockRadioGroup } from "@/modules/main-page/mock/mock-filtered-tabss-radio-group";
+import { inputsData } from "@/modules/main-page/mock/mock-input-data";
+import { Button } from "@/ui/button";
+import { Input } from "@/ui/input";
+import {
+  ChevronLeft,
+  ChevronRight
+} from "lucide-react";
+import { useRef } from "react";
+import { Element } from "react-scroll";
 
 export default function Home() {
   const {
@@ -66,44 +62,8 @@ export default function Home() {
   return (
     <>
 
-      <div className="rounded-[30px] flex items-center w-full justify-between my-[42px] gap-[50px] border-b border-b-[rgba(237,237,237,1)]">
-        <TabLister>
-          <div className="flex items-center justify-between w-full py-3">
-            <Tabs className="bg-[rgba(249,250,251,1)] rounded-2xl" defaultValue="all">
-              <TabsList className="flex gap-2 rounded-md px-2 py-1">
-                {mockTabs.map((tab, index) => (
-                  <Link
-                    key={tab.id}
-                    to={tab.label}
-                    containerId="scrollContainer" // Вказуємо scroll-контейнер
-                    smooth={true}
-                    duration={500}
-                  >
-                    <TabsTrigger
-                      value={tab.value}
-                      className="px-[16px] py-[6px] text-black"
-                      onClick={() => setScrollId(tab.label as modeTabs)}
-                    >
-                      {tab.label}
-                      {index === mockTabs.length - 1 && (
-                        <ChevronDown className="ml-1 w-[10px] h-[10px]" strokeWidth={2.5} />
-                      )}
-                    </TabsTrigger>
-                  </Link>
-                ))}
-              </TabsList>
-            </Tabs>
-
-            <div className="flex items-center gap-[10px] py-[16px] bg-[rgba(250,250,250,1)] rounded-[15px]">
-              <ArrowUpDown className="text-black" size={16} />
-              <span className={`text-[16px] ${nunito400.className}`}>Сортування</span>
-              <span className="text-[rgba(254,95,0,1)] text-[16px]">рейтингу</span>
-            </div>
-          </div>
-        </TabLister>
-      </div>
-
-      {/* Контент піц та фільтри */}
+    <MainComponentsOfTabList/>
+    {/* next will refactored this  */}
       <div className="w-full flex mt-[36px] gap-[48px]">
         <div
           ref={containerRef}
@@ -210,6 +170,9 @@ export default function Home() {
         </div>
       </div>
 
+
+
+
       {/* Пагінація */}
       <div className="flex gap-[40px] w-full mt-[70px] mb-[60px] items-center justify-center">
         <Pagination>
@@ -238,8 +201,10 @@ export default function Home() {
           {currentPageIndex} with {maxPageIndex}
         </span>
       </div>
+
     </>
   );
 }
 
+//  копоенент до 50 рядків коду  має бути 
 

@@ -1,7 +1,7 @@
 import { Tabs, TabsList, TabsTrigger } from "@/ui/tabs"
 import { mockTabs } from "@/modules/main-page/mock/mock-tabs"
 import { ChevronDown } from "lucide-react"
-import { TabLister } from "@/modules/layout/tab-list/tab-list"
+import { TabLister } from "@/modules/layout/tab-list/main-tab-list"
 
 export default function Page(){
     return  (   
