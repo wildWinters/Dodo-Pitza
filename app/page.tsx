@@ -220,19 +220,11 @@ export default function Home() {
             >
               <ChevronLeft />
             </PaginationLink>
-
-            {/* Оновлено: показуємо сторінки з 1 до maxPageIndex */}
-            {Array.from({ length: maxPageIndex }, (_, index) => (
+            {Array.from({ length: 2 }).map((_, index) => (
               <PaginationItem key={index}>
-                <PaginationLink
-                  href="#"
-                  className={currentPageIndex === index + 1 ? "font-bold text-[rgba(254,95,0,1)]" : ""}
-                >
-                  {index + 1}
-                </PaginationLink>
+                <PaginationLink href="#">{currentPageIndex + index}</PaginationLink>
               </PaginationItem>
             ))}
-
             <PaginationLink
               className="hover:border-[rgba(254,95,0,1)] hover:bg-white"
               onClick={incrementCurrentPageIndex}
@@ -243,7 +235,7 @@ export default function Home() {
         </Pagination>
 
         <span className={`text-[15px] text-[rgba(136,136,136,1)] ${nunito600.className}`}>
-          {currentPageIndex} із {maxPageIndex}
+          {currentPageIndex} with {maxPageIndex}
         </span>
       </div>
     </>
