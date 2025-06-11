@@ -38,7 +38,6 @@ import { Element } from "react-scroll";
 
 export default function Home() {
   const {
-    setScrollId,
     defaultCount,
     currentPageIndex,
     incrementCurrentPageIndex,
@@ -63,7 +62,6 @@ export default function Home() {
     <>
 
     <MainComponentsOfTabList/>
-
       <div className="w-full flex mt-[36px] gap-[48px]">
         <div
           ref={containerRef}
@@ -169,7 +167,6 @@ export default function Home() {
           </FilteredWrapper>
         </div>
       </div>
-
 
 
 
