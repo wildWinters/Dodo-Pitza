@@ -63,7 +63,7 @@ export default function Home() {
     <>
 
     <MainComponentsOfTabList/>
-    {/* next will refactored this  */}
+
       <div className="w-full flex mt-[36px] gap-[48px]">
         <div
           ref={containerRef}

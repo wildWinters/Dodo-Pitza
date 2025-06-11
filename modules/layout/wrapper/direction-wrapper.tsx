@@ -7,8 +7,6 @@ export interface IDirectionWrapper{
   className?:string,
 }
 
-
-
 export const DirectionWrapper: React.FC<IDirectionWrapper> = ({
   children,
   className,
