@@ -1,4 +1,5 @@
 "use client";
+import { Link, Element } from "react-scroll";
 import {
   ChevronDown,
   ChevronLeft,
@@ -8,7 +9,7 @@ import {
 import { Tabs, TabsList, TabsTrigger } from "@/ui/tabs";
 import { Input } from "@/ui/input";
 import { cn } from "@/lib/utils";
-import { 
+import {
   nunito400,
   nunito700,
   nunito4,
@@ -37,38 +38,47 @@ import {
 } from "@/modules/layout/pizza-info-block/components/pizza-wrapper";
 import { useRef } from "react";
 import { useMainPageStoreHook } from "@/modules/main-page/hook/use-main-page.hook";
-import { Link, Element } from 'react-scroll';
 import { mockPizzas } from "@/modules/main-page/mock/mock-data-pitza";
- 
-
 
 export default function Home() {
-  const pitzaBlockRef = useRef<(HTMLDivElement | null)[]>([]);
-    const  { 
-      scrollId,
-      setScrollId,
-      defaultCount,
-      currentPageIndex,
-      incrementCurrentPageIndex,
-      decrementCurrentPageIndex,
-      isShowAllGradient,
-      maxPageIndex,
-      toggleBetweenPartAndAllGradients,
-      searchElement,
-      setEnteredValueSearchedElement,
-    } = useMainPageStoreHook();
-    console.log(scrollId)
-  
-const containerRef = useRef<HTMLDivElement | null>(null);
+  const {
+    setScrollId,
+    defaultCount,
+    currentPageIndex,
+    incrementCurrentPageIndex,
+    decrementCurrentPageIndex,
+    isShowAllGradient,
+    maxPageIndex,
+    toggleBetweenPartAndAllGradients,
+    searchElement,
+    setEnteredValueSearchedElement,
+  } = useMainPageStoreHook();
+
+  const containerRef = useRef<HTMLDivElement | null>(null);
+
+
+  const filteredIngredients = searchElement
+    ? mockIngredients.filter((value) =>
+        value.label.toLowerCase().includes(searchElement.trim().toLowerCase())
+      )
+    : mockIngredients.slice(0, defaultCount);
+
   return (
     <>
+
       <div className="rounded-[30px] flex items-center w-full justify-between my-[42px] gap-[50px] border-b border-b-[rgba(237,237,237,1)]">
         <TabLister>
           <div className="flex items-center justify-between w-full py-3">
             <Tabs className="bg-[rgba(249,250,251,1)] rounded-2xl" defaultValue="all">
               <TabsList className="flex gap-2 rounded-md px-2 py-1">
                 {mockTabs.map((tab, index) => (
-                  <Link key={tab.id} to={index}>
+                  <Link
+                    key={tab.id}
+                    to={tab.label}
+                    containerId="scrollContainer" // Вказуємо scroll-контейнер
+                    smooth={true}
+                    duration={500}
+                  >
                     <TabsTrigger
                       value={tab.value}
                       className="px-[16px] py-[6px] text-black"
@@ -93,33 +103,38 @@ const containerRef = useRef<HTMLDivElement | null>(null);
         </TabLister>
       </div>
 
-
-      <div className="flex mt-[36px]   gap-[48px]">
-          <div
-            ref={containerRef}
-            id="scrollContainer"
-            className=" relative order-2 grid h-[900px] grid-cols-3 auto-rows-auto gap-x-[50px] gap-y-[30px] w-full overflow-auto p-4"
-          >
-        {mockPizzas.map((pizza, index) => (
-          <PizzaWrapper
-            key={index}
-            ref={(el) => {
-              if (el) pitzaBlockRef.current[index] = el;
-            }}
-            className="h-full"
-          >
-            <PizzaImageBlock src={pizza.image} alt={pizza.title} />
-            <PizzaDescription>
-              <span className={`${nunito700.className} text-black text-left`}>
-                {pizza.title}
-              </span>
-              <span className={`${nunito400.className} text-[14px] text-[rgba(177,177,177,1)]`}>
-                {pizza.description}
-              </span>
-            </PizzaDescription>
-            <PizzaPriceBlock price={pizza.price} mode="button" buttonMode="Додати" />
-          </PizzaWrapper>
-        ))}
+      {/* Контент піц та фільтри */}
+      <div className="w-full flex mt-[36px] gap-[48px]">
+        <div
+          ref={containerRef}
+          id="scrollContainer"
+          className="relative order-2 grid h-[900px] grid-cols-3 auto-rows-auto gap-x-[50px] gap-y-[30px] w-full overflow-auto p-4"
+        >
+          {mockPizzas.map((pizza, index) => (
+            <PizzaWrapper key={index} className="h-full">
+              <Element name={pizza.blockMenuDescriptionFOrTAbs}>
+                <span
+                  className={cn(
+                    "text-[20px]",
+                    nunito600.className,
+                    pizza?.blockMenuDescriptionFOrTAbs ? "block" : "hidden"
+                  )}
+                >
+                  {pizza.blockMenuDescriptionFOrTAbs}
+                </span>
+              </Element>
+              <PizzaImageBlock src={pizza.image} alt={pizza.title} />
+              <PizzaDescription>
+                <span className={`${nunito700.className} text-black text-left`}>
+                  {pizza.title}
+                </span>
+                <span className={`${nunito400.className} text-[14px] text-[rgba(177,177,177,1)]`}>
+                  {pizza.description}
+                </span>
+              </PizzaDescription>
+              <PizzaPriceBlock price={pizza.price} mode="button" buttonMode="Додати" />
+            </PizzaWrapper>
+          ))}
         </div>
 
         <div className="w-fit h-fit">
@@ -151,6 +166,7 @@ const containerRef = useRef<HTMLDivElement | null>(null);
 
             <div className={`max-h-[297px] ${isShowAllGradient ? "overflow-auto" : ""}`}>
               <span>Інгредієнти</span>
+
               {isShowAllGradient && (
                 <Input
                   className="border-2 border-gray-600 max-h-[40px] my-[20px]"
@@ -158,26 +174,15 @@ const containerRef = useRef<HTMLDivElement | null>(null);
                   onChange={(e) => setEnteredValueSearchedElement(e.target.value)}
                 />
               )}
-              {!searchElement &&
-                mockIngredients.slice(0, defaultCount).map((value) => (
-                  <FilterOption
-                    key={value.label}
-                    className={`my-[15px] ${nunito4.className}`}
-                    label={value.label}
-                  />
-                ))}
-              {searchElement &&
-                mockIngredients
-                  .filter((value) =>
-                    value.label.toLowerCase().includes(searchElement.trim().toLowerCase())
-                  )
-                  .map((value) => (
-                    <FilterOption
-                      key={value.label}
-                      className={`my-[15px] ${nunito4.className}`}
-                      label={value.label}
-                    />
-                  ))}
+
+              {filteredIngredients.map((value) => (
+                <FilterOption
+                  key={value.label}
+                  className={`my-[15px] ${nunito4.className}`}
+                  label={value.label}
+                />
+              ))}
+
               <span
                 onClick={toggleBetweenPartAndAllGradients}
                 className={`text-[rgba(254,95,0,1)] ${nunito4.className} text-[16px] cursor-pointer`}
@@ -197,6 +202,7 @@ const containerRef = useRef<HTMLDivElement | null>(null);
                 />
               ))}
             </div>
+
             <Button className="bg-[rgba(254,95,0,1)] py-[15px] max-w-[244px] h-[50px] rounded-[18px] my-[34px] text-white text-[16px]">
               Активувати
             </Button>
@@ -204,7 +210,7 @@ const containerRef = useRef<HTMLDivElement | null>(null);
         </div>
       </div>
 
-
+      {/* Пагінація */}
       <div className="flex gap-[40px] w-full mt-[70px] mb-[60px] items-center justify-center">
         <Pagination>
           <PaginationContent>
@@ -214,11 +220,19 @@ const containerRef = useRef<HTMLDivElement | null>(null);
             >
               <ChevronLeft />
             </PaginationLink>
-            {Array.from({ length: 2 }).map((_, index) => (
+
+            {/* Оновлено: показуємо сторінки з 1 до maxPageIndex */}
+            {Array.from({ length: maxPageIndex }, (_, index) => (
               <PaginationItem key={index}>
-                <PaginationLink href="#">{currentPageIndex + index}</PaginationLink>
+                <PaginationLink
+                  href="#"
+                  className={currentPageIndex === index + 1 ? "font-bold text-[rgba(254,95,0,1)]" : ""}
+                >
+                  {index + 1}
+                </PaginationLink>
               </PaginationItem>
             ))}
+
             <PaginationLink
               className="hover:border-[rgba(254,95,0,1)] hover:bg-white"
               onClick={incrementCurrentPageIndex}
@@ -229,10 +243,11 @@ const containerRef = useRef<HTMLDivElement | null>(null);
         </Pagination>
 
         <span className={`text-[15px] text-[rgba(136,136,136,1)] ${nunito600.className}`}>
-          {currentPageIndex} with {maxPageIndex}
+          {currentPageIndex} із {maxPageIndex}
         </span>
       </div>
-
     </>
   );
 }
+
+
