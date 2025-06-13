@@ -3,7 +3,10 @@ import { cn } from "@/lib/utils";
 import { mockPizzas } from "@/modules/main-page/mock/mock-data-pitza";
 import { ReactNode } from "react";
 import { Element } from "react-scroll";
-import { PizzaDescription, PizzaImageBlock, PizzaPriceBlock, PizzaWrapper } from "./components/pizza-wrapper";
+import { PizzaDescription } from "./components/pizza-description";
+import { PizzaImageBlock } from "./components/pizza-image-block";
+import { PizzaPriceBlock } from "./components/pizza-price-block";
+import { PizzaWrapper } from "./components/pizza-wrapper";
 
 export type TypeMainPizzaListWrapper = { 
   children?: ReactNode;

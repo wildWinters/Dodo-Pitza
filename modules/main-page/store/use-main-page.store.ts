@@ -1,15 +1,18 @@
 import { create } from "zustand";
 import { mockIngredients } from "../mock/mock-filtered-tabs";
-import { modeTabs } from "../mock/mock-tabs";
+import { ModeTabs } from "../mock/mock-tabs";
+
+
+
 interface MainPageStore {
-  scrollId:modeTabs | null,
+  scrollId:ModeTabs | null,
   defaultCount: number;
   currentPageIndex: number;
   selectedPageIndex: number | null;
   maxPageCount: number;
   isShowAllGradient: boolean;
   searchElement: string;
-  setScrollId: (id:modeTabs | null) => void;
+  setScrollId: (id:ModeTabs | null) => void;
   setEnteredValueSearchedElement: (value: string) => void;
   setSelectedPageIndex: (index: number) => void;
   incrementSelectedPageIndex: () => void;
@@ -27,7 +30,7 @@ export const useMainPageStore = create<MainPageStore>((set, get) => ({
   selectedPageIndex: null,
   isShowAllGradient: false,
   searchElement: "",
-  scrollId:null,
+  scrollId: null,
   setScrollId: (id:modeTabs | null) => set({scrollId:id}),
   setEnteredValueSearchedElement: (value) => {
     set({
