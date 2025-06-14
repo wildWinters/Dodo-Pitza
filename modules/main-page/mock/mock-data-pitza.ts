@@ -87,7 +87,7 @@ export const mockPizzas: IMockPizzas[] = [
     price: "261",
   },
   {
-    blockMenuDescriptionFOrTAbs:"Vegeterian",
+    blockMenuDescriptionFOrTAbs:"Vegetarian",
     title: "Pizza 13",
     description: "Description for Pizza 13",
     image: "/dodo.avif",
@@ -106,7 +106,7 @@ export const mockPizzas: IMockPizzas[] = [
     price: "264",
   },
   {
-    blockMenuDescriptionFOrTAbs:"Chiken",
+    blockMenuDescriptionFOrTAbs:"Chicken",
     title: "Pizza 16",
     description: "Description for Pizza 16",
     image: "/dodo.avif",

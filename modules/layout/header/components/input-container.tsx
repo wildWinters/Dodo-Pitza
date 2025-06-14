@@ -1,18 +1,7 @@
 import { Input } from "@/ui/input"
-import { DirectionWrapper } from "../../wrapper/direction-wrapper"
 import { Search } from "lucide-react"
 import React from "react"
-import { Button } from "@/ui/button"
-import { User } from "lucide-react"
-import { ShoppingCart } from 'lucide-react';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+import { DirectionWrapper } from "../../wrapper/direction-wrapper"
 
 export const InputContainer:React.FC = () =>{ 
     return ( 
@@ -25,29 +14,3 @@ export const InputContainer:React.FC = () =>{
     )
 }
 
-export const RegistrationPanel: React.FC = () => {
-     return  ( 
-         <DirectionWrapper direction="row"> 
-            <Button className="">
-                <User />
-                Увійти
-            </Button>
-            
-                <DropdownMenu>
-                <DropdownMenuTrigger>Open</DropdownMenuTrigger>
-                <DropdownMenuContent>
-                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem>Profile</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Team</DropdownMenuItem>
-                    <DropdownMenuItem>Subscription</DropdownMenuItem>
-                </DropdownMenuContent>
-                </DropdownMenu>
-
-            <Button className="h-[50px] w-[50px] rounded-[15px] border-[1px]">
-                <ShoppingCart size={16}/>
-            </Button>
-         </DirectionWrapper>
-     )
-}

@@ -1,6 +1,6 @@
+import { cn } from "@/lib/utils"
 import * as React from "react"
 import { nunito400 } from "./button"
-import { cn } from "@/lib/utils"
 
 function Input({ className, type, ...props }: React.ComponentProps<"input">) {
   return (

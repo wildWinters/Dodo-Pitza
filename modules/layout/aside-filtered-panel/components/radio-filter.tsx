@@ -9,7 +9,6 @@ interface IFilterOptionProps {
   controlClassName?: string;
   value?: string;
 }
-
 export const FilterRadio: React.FC<IFilterOptionProps> = ({
   label,
   className,
