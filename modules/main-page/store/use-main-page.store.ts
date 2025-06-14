@@ -2,8 +2,6 @@ import { create } from "zustand";
 import { mockIngredients } from "../mock/mock-filtered-tabs";
 import { ModeTabs } from "../mock/mock-tabs";
 
-
-
 interface MainPageStore {
   scrollId:ModeTabs | null,
   defaultCount: number;
@@ -20,7 +18,6 @@ interface MainPageStore {
   incrementCurrentPageIndex: () => void;
   decrementCurrentPageIndex: () => void;
   toggleBetweenPartAndAllGradients: () => void;
-
 }
 
 export const useMainPageStore = create<MainPageStore>((set, get) => ({
@@ -31,7 +28,7 @@ export const useMainPageStore = create<MainPageStore>((set, get) => ({
   isShowAllGradient: false,
   searchElement: "",
   scrollId: null,
-  setScrollId: (id:modeTabs | null) => set({scrollId:id}),
+  setScrollId: (id: ModeTabs | null) => set({scrollId:id}),
   setEnteredValueSearchedElement: (value) => {
     set({
       searchElement: value,

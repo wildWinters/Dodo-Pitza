@@ -1,7 +1,6 @@
 import { cn } from "@/lib/utils";
-import { forwardRef, useState } from "react";
+import { forwardRef } from "react";
 import { IBasedProps } from "../../footer/main-footer-wrapper";
-import { Counter } from "./pizza-counter";
 
 export const PizzaWrapper = forwardRef<HTMLDivElement, IBasedProps>(
   ({ children, className, ...props }, ref) => (
