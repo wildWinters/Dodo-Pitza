@@ -2,16 +2,27 @@ import { nunito700 } from "@/font/fonts";
 import { cn } from "@/lib/utils";
 import { mockRadioGroup } from "@/modules/main-page/mock/mock-filtered-tabss-radio-group";
 import { inputsData } from "@/modules/main-page/mock/mock-input-data";
+import { useIngredients } from "@/modules/main-page/hooks/use-ingredients";
 import { Button } from "@/ui/button";
 import { Input } from "@/ui/input";
 import { MainIngredientWrapper } from "../ingredients/main-ingredient-wrapper";
 import { FilterOption } from "./components/filter-option";
 import { FilteredWrapper } from "./components/filtered-wrapper";
 import { RadioFilterBlock } from "./components/radio-filter-description";
+import { FC } from "react";
 
-export function MainComponentFilteredPanel() {
+export const MainComponentFilteredPanel: FC<{ handleInputClick?: () => void }> = () => {
   const titleClass = cn("text-[22px]", nunito700.className);
   const subtitleClass = cn(nunito700.className, "text-[16px]");
+  const { ingredients, loading, error } = useIngredients();
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   return (
     <FilteredWrapper>
@@ -40,7 +51,7 @@ export function MainComponentFilteredPanel() {
         </div>
       </section>
 
-      <MainIngredientWrapper />
+      <MainIngredientWrapper ingredients={ingredients} />
 
       <section className="mt-[42px]">
         <span className={subtitleClass}>Тип Теста</span>
@@ -54,4 +65,4 @@ export function MainComponentFilteredPanel() {
       </Button>
     </FilteredWrapper>
   );
-}
+};

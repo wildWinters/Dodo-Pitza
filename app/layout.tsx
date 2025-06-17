@@ -22,15 +22,17 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-              <Header> 
-                <Header.LogoPanel/>
-                <Header.InputContainer/>
-                <Header.RegistrationPanel/>
-              </Header>   
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        >
+          <Header> 
+            <Header.LogoPanel/>
+            <Header.InputContainer/>
+            <Header.RegistrationPanel/>
+          </Header>   
           <main className='flex items-start justify-start flex-col mx-[67px]'>
             {children}
           </main>

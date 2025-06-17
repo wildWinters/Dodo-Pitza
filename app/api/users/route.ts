@@ -8,7 +8,6 @@ interface IUserData{
     password: null;
     phone: null;
     email: null;
-
 }
 
 const userData: IUserData = [{
@@ -27,8 +26,6 @@ export async function GET(request: NextRequest) {
 // POST handler
 export async function POST(client: NextRequest) {
     const body = await client.json();
-
-
   return NextResponse.json({ received: body });
 }
 

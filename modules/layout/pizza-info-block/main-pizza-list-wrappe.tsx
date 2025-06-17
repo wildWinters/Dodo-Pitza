@@ -1,3 +1,4 @@
+
 import { nunito400, nunito600, nunito700 } from "@/font/fonts";
 import { cn } from "@/lib/utils";
 import { mockPizzas } from "@/modules/main-page/mock/mock-data-pitza";

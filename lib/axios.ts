@@ -1,14 +1,14 @@
 import axios from "axios"
-import { config } from "process"
 
+const URL = "http://localhost:3000/api";
 
-export const axiosInstance  = axios.create({
-    baseURL :"localhost:3000/",
-    timeout:10000,
+export const axiosInstance = axios.create({
+    baseURL: URL,
+    timeout: 10000,
     headers: {
-    'Content-Type': 'application/json', 
-    'Authorization': 'Bearer TOKEN',   
-  },
-    responseType: 'json', 
+        'Content-Type': 'application/json',
+    },
+    withCredentials: true,
+    responseType: 'json',
 })
 

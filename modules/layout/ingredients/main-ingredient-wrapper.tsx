@@ -1,26 +1,28 @@
 import { nunito400 } from "@/font/fonts";
 import { cn } from "@/lib/utils";
-import { mockIngredients } from "@/modules/main-page/mock/mock-filtered-tabs";
+import { Ingredient } from "@/app/api/ingredients/mock-ingredients";
 import { useMainPageStore } from "@/modules/main-page/store/use-main-page.store";
 import { Input } from "@/ui/input";
 import React from "react";
 import { FilterOption } from "../aside-filtered-panel/components/filter-option";
+
 export type TMainIngredientWrapper = {
   className?: string;
+  ingredients: Ingredient[];
 };
-export const MainIngredientWrapper: React.FC<TMainIngredientWrapper> = ({ className }) => {
-const defaultCount = useMainPageStore(state => state.defaultCount)
-const isShowAllGradient = useMainPageStore(state => state.isShowAllGradient)
-const setEnteredValueSearchedElement = useMainPageStore(state => state.setEnteredValueSearchedElement)
-const searchElement = useMainPageStore(state => state.searchElement)
-const toggleBetweenPartAndAllGradients = useMainPageStore(state=>state.toggleBetweenPartAndAllGradients)
+
+export const MainIngredientWrapper: React.FC<TMainIngredientWrapper> = ({ className, ingredients }) => {
+  const defaultCount = useMainPageStore(state => state.defaultCount);
+  const isShowAllGradient = useMainPageStore(state => state.isShowAllGradient);
+  const setEnteredValueSearchedElement = useMainPageStore(state => state.setEnteredValueSearchedElement);
+  const searchElement = useMainPageStore(state => state.searchElement);
+  const toggleBetweenPartAndAllGradients = useMainPageStore(state => state.toggleBetweenPartAndAllGradients);
 
   const filteredIngredients = searchElement
-    ? mockIngredients.filter((item) =>
-        item.label.toLowerCase().includes(searchElement.trim().toLowerCase())
+    ? ingredients.filter((item) =>
+        item.name.toLowerCase().includes(searchElement.trim().toLowerCase())
       )
-    : mockIngredients.slice(0, defaultCount);
-
+    : ingredients.slice(0, defaultCount);
 
   return (
     <div
@@ -42,9 +44,9 @@ const toggleBetweenPartAndAllGradients = useMainPageStore(state=>state.toggleBet
 
       {filteredIngredients.map((item) => (
         <FilterOption
-          key={item.label}
+          key={item.id}
           className={cn("my-[15px]", nunito400.className)}
-          label={item.label}
+          label={item.name}
         />
       ))}
 
