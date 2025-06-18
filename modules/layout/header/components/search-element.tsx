@@ -1,10 +1,9 @@
 import { FC } from "react";
-import Link from "next/link";
 import { IIngredient } from "./input-container";
 import { cn } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
+import Link from "next/link";
 import Image from "next/image";
-
 interface IBasedProps {
   ingredients: IIngredient[];
   className?: string;
@@ -27,6 +26,7 @@ export const SearchElement: FC<ISearchElement> = ({
   if (ingredients.length === 0)
     return (
       <div
+        {...props}
         className={cn(
           "absolute bottom-[-50px] bg-white h-[40px] flex items-center left-0 w-full",
           isModalOpen ? "block" : "hidden",
@@ -34,6 +34,7 @@ export const SearchElement: FC<ISearchElement> = ({
         )}
       >
         <span>Nothing found</span>
+        <Skeleton className={cn(isLoading ?  "hidden" : "block", "w-full h-[40px]" )}/>
       </div>
     );
 
@@ -57,19 +58,14 @@ export const SearchElement: FC<ISearchElement> = ({
               className="rounded-full object-cover"
             />
             <Link
-              href="#"
+              href={`product/${ingredient.id}`}
               className={cn("py-1 h-[40px] flex items-center", className)}
               {...props}
             >
               {ingredient.name}
             </Link>
           </div>
-          <Skeleton
-            className={cn(
-              isLoading ? "hidden" : "",
-              "w-full flex flex-1"
-            )}
-          />
+          <Skeleton className={cn(isLoading ?  "hidden" : "block", "w-full h-[40px]" )}/>
         </div>
       ))}
     </div>

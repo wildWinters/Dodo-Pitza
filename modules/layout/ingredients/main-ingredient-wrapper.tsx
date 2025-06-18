@@ -5,7 +5,7 @@ import { useMainPageStore } from "@/modules/main-page/store/use-main-page.store"
 import { Input } from "@/ui/input";
 import React from "react";
 import { FilterOption } from "../aside-filtered-panel/components/filter-option";
-
+import { Skeleton } from "@/components/ui/skeleton";
 export type TMainIngredientWrapper = {
   className?: string;
   ingredients: Ingredient[];
@@ -27,7 +27,7 @@ export const MainIngredientWrapper: React.FC<TMainIngredientWrapper> = ({ classN
   return (
     <div
       className={cn(
-        "max-h-[297px]",
+        "max-h-[360px]",
         isShowAllGradient && "overflow-auto",
         className
       )}
@@ -43,17 +43,20 @@ export const MainIngredientWrapper: React.FC<TMainIngredientWrapper> = ({ classN
       )}
 
       {filteredIngredients.map((item) => (
-        <FilterOption
-          key={item.id}
-          className={cn("my-[15px]", nunito400.className)}
-          label={item.name}
-        />
+        <> 
+          <FilterOption
+            key={item.id}
+            className={cn("my-[15px]", nunito400.className)}
+            label={item.name}
+          />
+          <Skeleton className="flex flex-1 min-h-[30px]"/>
+        </>
       ))}
 
       <span
         onClick={toggleBetweenPartAndAllGradients}
         className={cn(
-          "text-[rgba(254,95,0,1)] text-[16px] cursor-pointer",
+          "text-[rgba(254,95,0,1)] mt-[60px] text-[16px] cursor-pointer",
           nunito400.className
         )}
       >

@@ -5,12 +5,11 @@ import { MainPizzaListWrapper } from "@/modules/layout/pizza-info-block/main-piz
 import { MainComponentsOfTabList } from "@/modules/layout/tab-list/main-components-of-tab-lists";
 import { mockPizzas } from "@/modules/main-page/mock/mock-data-pitza";
 import { useModalStore } from "@/modules/main-page/store/use-active-modal-store";
-
 export default function Home() {
   const gridContainerClass = "relative order-2 grid h-[900px] grid-cols-3 auto-rows-auto gap-x-[50px] gap-y-[30px] w-full overflow-auto p-4";
   const isModalOpen = useModalStore(state => state.isModalOpen);
   const closeModal = useModalStore(state => state.closeModal);
-  
+
   return (
     <>
       <div className={`${isModalOpen ? "relative z-[-5]" : ""} w-full`}>

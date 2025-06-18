@@ -61,7 +61,7 @@ export const InputContainer: FC = () => {
           isModalOpen={isModalOpen}
           className=""
           isLoading={isLoading}
-          />
+        />
           
       </DirectionWrapper>
     </>
