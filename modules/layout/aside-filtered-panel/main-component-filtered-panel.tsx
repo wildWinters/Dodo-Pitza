@@ -41,7 +41,7 @@ export const MainComponentFilteredPanel: FC<{ handleInputClick?: () => void }> =
           ))}
         </div>
       </section>
-      
+
       <section className="mt-5 border-y border-y-neutral-100 py-6 pb-7">
         <p className="font-bold mb-[12px]">Ціна від і до:</p>
 
@@ -71,7 +71,6 @@ export const MainComponentFilteredPanel: FC<{ handleInputClick?: () => void }> =
           </Fragment>
         ))}
       </section>
-
       <Button className="bg-[rgba(254,95,0,1)] py-[15px] max-w-[244px] h-[50px] rounded-[18px] my-[34px] text-white text-[16px]">
         Активувати
       </Button>
