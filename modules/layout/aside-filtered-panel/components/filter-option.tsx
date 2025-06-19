@@ -1,8 +1,7 @@
 import React from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
-
-interface IFilterOptionProps {
+export interface IFilterOptionProps {
   label: string;
   type?: "checkbox" | "radio";
   name?: string;
@@ -11,11 +10,9 @@ interface IFilterOptionProps {
   controlClassName?: string;
   checked?: boolean;
   value?: string;
-  onChangeValue?: (checked: boolean) => void;
+  onClick?: () => void;
 }
 
-//! розділити окремо на 2 частини треба роздлити код наи 2 коремі частини в тому і суть роздилити код на 2 частини
-//! роздилити код на 2 частини розділяється просто на 2 частини
 export const FilterOption: React.FC<IFilterOptionProps> = ({
   label,
   type = "checkbox",
@@ -23,16 +20,12 @@ export const FilterOption: React.FC<IFilterOptionProps> = ({
   className,
   classNameLabel,
   controlClassName,
-  onChangeValue,
   checked,
   value,
+  onClick,
   ...props
 }) => {
   const id = `filteroption-${label.replace(/\s+/g, "-").toLowerCase()}`;
-  
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onChangeValue?.(e.target.checked);
-  };
 
   return (
     <div className={cn("flex gap-[12px] items-center", className)}>
@@ -41,16 +34,15 @@ export const FilterOption: React.FC<IFilterOptionProps> = ({
         name={name}
         value={value || label}
         checked={checked}
-        onChange={handleChange}
         className={cn(
           type === "checkbox"
-            ? " border-none w-[24px] h-[24px] bg-[rgba(241,241,241,1)] rounded-[8px] data-[state=checked]:bg-[rgba(254,95,0,1)]"
+            ? "font-[600] border-none w-[24px] h-[24px] bg-[rgba(241,241,241,1)] rounded-[8px] data-[state=checked]:bg-[rgba(254,95,0,1)]"
             : "w-[24px] h-[24px] bg-[rgba(241,241,241,1)] rounded-full data-[state=checked]:bg-[rgba(254,95,0,1)]",
           controlClassName
         )}
         {...props}
       />
-      <label htmlFor={id} className={cn("", classNameLabel)}>
+      <label htmlFor={id} className={cn("", classNameLabel)} onClick={onClick}>
         {label}
       </label>
     </div>

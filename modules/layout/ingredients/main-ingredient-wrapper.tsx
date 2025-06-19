@@ -1,31 +1,39 @@
 import { nunito400 } from "@/font/fonts";
 import { cn } from "@/lib/utils";
-import { mockIngredients } from "@/modules/main-page/mock/mock-filtered-tabs";
+import { Ingredient } from "@/app/api/ingredients/mock-ingredients";
 import { useMainPageStore } from "@/modules/main-page/store/use-main-page.store";
 import { Input } from "@/ui/input";
-import React from "react";
+import React, { useState } from "react";
 import { FilterOption } from "../aside-filtered-panel/components/filter-option";
+import { Skeleton } from "@/components/ui/skeleton";
+import { addOrRemoveFromArray } from "@/utils/add-or-remove-from-array";
+import { Fragment } from "react";
+
 export type TMainIngredientWrapper = {
   className?: string;
+  ingredients: Ingredient[];
 };
-export const MainIngredientWrapper: React.FC<TMainIngredientWrapper> = ({ className }) => {
-const defaultCount = useMainPageStore(state => state.defaultCount)
-const isShowAllGradient = useMainPageStore(state => state.isShowAllGradient)
-const setEnteredValueSearchedElement = useMainPageStore(state => state.setEnteredValueSearchedElement)
-const searchElement = useMainPageStore(state => state.searchElement)
-const toggleBetweenPartAndAllGradients = useMainPageStore(state=>state.toggleBetweenPartAndAllGradients)
+
+export const MainIngredientWrapper: React.FC<TMainIngredientWrapper> = ({ className, ingredients }) => {
+  const defaultCount = useMainPageStore(state => state.defaultCount);
+  const isShowAllGradient = useMainPageStore(state => state.isShowAllGradient);
+  const setEnteredValueSearchedElement = useMainPageStore(state => state.setEnteredValueSearchedElement);
+  const searchElement = useMainPageStore(state => state.searchElement);
+  const toggleBetweenPartAndAllGradients = useMainPageStore(state => state.toggleBetweenPartAndAllGradients);
+  const [ingredient,setIngredientsFilters] = useState<string[]>([]);
+  console.log(ingredient);
+
 
   const filteredIngredients = searchElement
-    ? mockIngredients.filter((item) =>
-        item.label.toLowerCase().includes(searchElement.trim().toLowerCase())
+    ? ingredients.filter((item) =>
+        item.name.toLowerCase().includes(searchElement.trim().toLowerCase())
       )
-    : mockIngredients.slice(0, defaultCount);
-
+    : ingredients.slice(0, defaultCount);
 
   return (
     <div
       className={cn(
-        "max-h-[297px]",
+        "max-h-[360px]",
         isShowAllGradient && "overflow-auto",
         className
       )}
@@ -41,17 +49,20 @@ const toggleBetweenPartAndAllGradients = useMainPageStore(state=>state.toggleBet
       )}
 
       {filteredIngredients.map((item) => (
-        <FilterOption
-          key={item.label}
-          className={cn("my-[15px]", nunito400.className)}
-          label={item.label}
-        />
+        <Fragment key={item.id} > 
+          <FilterOption
+            className={cn("my-[15px]", nunito400.className)}
+            label={item.name}
+            onClick={() => addOrRemoveFromArray(item.id, setIngredientsFilters)}
+          />
+          {/* <Skeleton className="flex flex-1 min-h-[30px]"/> */}
+        </Fragment>
       ))}
 
       <span
         onClick={toggleBetweenPartAndAllGradients}
         className={cn(
-          "text-[rgba(254,95,0,1)] text-[16px] cursor-pointer",
+          "text-[rgba(254,95,0,1)] mt-[60px] text-[16px] cursor-pointer",
           nunito400.className
         )}
       >

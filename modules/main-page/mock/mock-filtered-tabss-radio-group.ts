@@ -5,6 +5,6 @@ interface IMockRadioGroup {
 }
 
 export const mockRadioGroup: IMockRadioGroup[] = [
-  { label: "Традиційні", value: "traditional",id:"label1" },
-  { label: "Тонке", value: "thin",id:"label2" }
+  { label: "traditional", value: "traditional",id:"label1" },
+  { label: "thin", value: "thin",id:"label2" }
 ];

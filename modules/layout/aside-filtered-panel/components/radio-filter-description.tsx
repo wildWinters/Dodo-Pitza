@@ -9,6 +9,7 @@ interface IRadioFilterBlock {
   label: string;
   value: string;
   id: string;
+  onClick:() => any;
 }
 
 export const RadioFilterBlock: React.FC<IRadioFilterBlock> = ({
@@ -16,6 +17,7 @@ export const RadioFilterBlock: React.FC<IRadioFilterBlock> = ({
   label,
   value,
   id,
+  onClick,
   className,
 }) => {
   return (
@@ -26,10 +28,10 @@ export const RadioFilterBlock: React.FC<IRadioFilterBlock> = ({
         id={id}
         className={cn(
           "w-[24px] h-[24px] rounded-full bg-[rgba(241,241,241,1)] focus:border-[7.5px] focus:border-[rgba(254,95,0,1)]",
-          "[&>div]:bg-white" // ← це змінює цятку всередині на білу
+          "[&>div]:bg-white" 
         )}
       />
-        <Label htmlFor={id} className={cn(nunito400.className, "text-[16px]")}>
+        <Label onClick={onClick} htmlFor={id} className={cn(nunito400.className, "text-[16px]")}>
           {label}
         </Label>
       </RadioGroup>

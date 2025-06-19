@@ -16,7 +16,7 @@ export const LogoPanel: React.FC = () => {
           NEXT PIZZA
         </span>
         <span className={`text-[rgba(123,123,123,1)] text-[clamp(10px,2vw,16px)] ${nunito400.className}`}>
-          вкусней уже некуда 
+          смачніше уже нікуди 
         </span>
       </div>
     </DirectionWrapper>
