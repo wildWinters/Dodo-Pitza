@@ -34,22 +34,28 @@ export const SearchElement: FC<ISearchElement> = ({
         )}
       >
         <span>Nothing found</span>
-        <Skeleton className={cn(isLoading ?  "hidden" : "block", "w-full h-[40px]" )}/>
+        {/* <Skeleton className={cn(isLoading ?  "hidden" : "block", "w-full h-[40px]" )}/> */}
       </div>
     );
 
   return (
     <div
       className={cn(
-        "absolute top-[71px] rounded-[40px] left-0 flex flex-col w-full",
+        " absolute top-[71px] rounded-[40px] left-0 flex flex-col w-full",
         ingredients.length > 0 && isModalOpen ? "block" : "hidden",
         isLoading ? "" : "hidden",
         className
       )}
     >
-      {ingredients.map((ingredient) => (
+      {ingredients.map((ingredient,index ) => (
         <div key={ingredient.id}>
-          <div className="flex w-full hover:bg-[rgb(243,146,146)] bg-white gap-[20px] items-center px-4 py-2">
+        <div
+          className={cn(
+            "flex w-full hover:bg-[rgb(243,146,146)] bg-white gap-[20px] items-center px-4 py-2",
+            index === 0 && "rounded-t-2xl",
+            index === ingredients.length - 1 && "rounded-b-2xl"
+          )}
+        >
             <Image
               src={ingredient.iconUrl}
               alt={ingredient.name}
@@ -65,7 +71,7 @@ export const SearchElement: FC<ISearchElement> = ({
               {ingredient.name}
             </Link>
           </div>
-          <Skeleton className={cn(isLoading ?  "hidden" : "block", "w-full h-[40px]" )}/>
+          {/* <Skeleton className={cn(isLoading ?  "hidden" : "block", "w-full h-[40px]" )}/> */}
         </div>
       ))}
     </div>

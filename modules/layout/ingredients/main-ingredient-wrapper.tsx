@@ -3,14 +3,16 @@ import { cn } from "@/lib/utils";
 import { Ingredient } from "@/app/api/ingredients/mock-ingredients";
 import { useMainPageStore } from "@/modules/main-page/store/use-main-page.store";
 import { Input } from "@/ui/input";
-import React from "react";
+import React, { useState } from "react";
 import { FilterOption } from "../aside-filtered-panel/components/filter-option";
 import { Skeleton } from "@/components/ui/skeleton";
+import { addOrRemoveFromArray } from "@/utils/add-or-remove-from-array";
+import { Fragment } from "react";
+
 export type TMainIngredientWrapper = {
   className?: string;
   ingredients: Ingredient[];
 };
-
 
 export const MainIngredientWrapper: React.FC<TMainIngredientWrapper> = ({ className, ingredients }) => {
   const defaultCount = useMainPageStore(state => state.defaultCount);
@@ -18,6 +20,9 @@ export const MainIngredientWrapper: React.FC<TMainIngredientWrapper> = ({ classN
   const setEnteredValueSearchedElement = useMainPageStore(state => state.setEnteredValueSearchedElement);
   const searchElement = useMainPageStore(state => state.searchElement);
   const toggleBetweenPartAndAllGradients = useMainPageStore(state => state.toggleBetweenPartAndAllGradients);
+  const [ingredient,setIngredientsFilters] = useState<string[]>([]);
+  console.log(ingredient);
+
 
   const filteredIngredients = searchElement
     ? ingredients.filter((item) =>
@@ -44,14 +49,14 @@ export const MainIngredientWrapper: React.FC<TMainIngredientWrapper> = ({ classN
       )}
 
       {filteredIngredients.map((item) => (
-        <> 
+        <Fragment key={item.id} > 
           <FilterOption
-            key={item.id}
             className={cn("my-[15px]", nunito400.className)}
             label={item.name}
+            onClick={() => addOrRemoveFromArray(item.id, setIngredientsFilters)}
           />
-          <Skeleton className="flex flex-1 min-h-[30px]"/>
-        </>
+          {/* <Skeleton className="flex flex-1 min-h-[30px]"/> */}
+        </Fragment>
       ))}
 
       <span

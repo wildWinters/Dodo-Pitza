@@ -1,7 +1,6 @@
 import React from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
-
 export interface IFilterOptionProps {
   label: string;
   type?: "checkbox" | "radio";
@@ -12,7 +11,6 @@ export interface IFilterOptionProps {
   checked?: boolean;
   value?: string;
   onClick?: () => void;
-
 }
 
 export const FilterOption: React.FC<IFilterOptionProps> = ({
@@ -38,7 +36,7 @@ export const FilterOption: React.FC<IFilterOptionProps> = ({
         checked={checked}
         className={cn(
           type === "checkbox"
-            ? " border-none w-[24px] h-[24px] bg-[rgba(241,241,241,1)] rounded-[8px] data-[state=checked]:bg-[rgba(254,95,0,1)]"
+            ? "font-[600] border-none w-[24px] h-[24px] bg-[rgba(241,241,241,1)] rounded-[8px] data-[state=checked]:bg-[rgba(254,95,0,1)]"
             : "w-[24px] h-[24px] bg-[rgba(241,241,241,1)] rounded-full data-[state=checked]:bg-[rgba(254,95,0,1)]",
           controlClassName
         )}
