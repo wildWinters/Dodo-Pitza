@@ -11,6 +11,7 @@ export type TMainIngredientWrapper = {
   ingredients: Ingredient[];
 };
 
+
 export const MainIngredientWrapper: React.FC<TMainIngredientWrapper> = ({ className, ingredients }) => {
   const defaultCount = useMainPageStore(state => state.defaultCount);
   const isShowAllGradient = useMainPageStore(state => state.isShowAllGradient);
