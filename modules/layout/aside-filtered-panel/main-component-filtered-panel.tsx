@@ -1,5 +1,4 @@
 "use client"
-
 import { nunito700 } from "@/font/fonts"
 import { cn } from "@/lib/utils"
 import { inputsData, IInputsData } from "@/modules/main-page/mock/mock-input-data"
@@ -20,7 +19,6 @@ export interface IFiteringData {
   priceTo: number | string
   thin: boolean
   traditional: boolean
-  size: number[] | "all" // dont know why 
   "20cm": boolean
   "30cm": boolean
   "40cm": boolean
@@ -58,13 +56,11 @@ export const MainComponentFilteredPanel: FC<{ handleInputClick?: () => void }> =
     priceTo: 5000,
     thin: false,
     traditional: false,
-    size: [],
     "20cm": false,
     "30cm": false,
     "40cm": false,
   })
 
-  // === Slider value ===
   const range: [number, number] = [
     typeof ingredientsFilters.priceFrom === "number" ? ingredientsFilters.priceFrom : 0,
     typeof ingredientsFilters.priceTo === "number" ? ingredientsFilters.priceTo : 5000,
@@ -114,17 +110,16 @@ export const MainComponentFilteredPanel: FC<{ handleInputClick?: () => void }> =
     console.log("filters updated:", ingredientsFilters)
   }, [ingredientsFilters])
 
-    const filtersParams = new URLSearchParams(
-      Object.entries(ingredientsFilters).map(([key, value]) => [
-        key,
-        typeof value === "string"
-          ? value
-          : Array.isArray(value)
-          ? value.join(",")
-          : String(value),
-      ])
-    )
-
+  const filtersParams = new URLSearchParams(
+    Object.entries(ingredientsFilters).map(([key, value]) => [
+      key,
+      typeof value === "string"
+        ? value
+        : Array.isArray(value)
+        ? value.join(",")
+        : String(value),
+    ])
+  )
 
   return (
     <>
@@ -173,7 +168,11 @@ export const MainComponentFilteredPanel: FC<{ handleInputClick?: () => void }> =
                 min={0}
                 max={5000}
                 placeholder={placeholder}
-                value={ingredientsFilters[name as keyof IFiteringData]}
+                value={
+                  typeof ingredientsFilters[name as keyof IFiteringData] === "number"
+                    ? ingredientsFilters[name as keyof IFiteringData]
+                    : ""
+                }
                 onChange={(e) => handlePriceChange(e, name as PriceKeys)}
               />
             ))}
@@ -187,7 +186,7 @@ export const MainComponentFilteredPanel: FC<{ handleInputClick?: () => void }> =
             onValueChange={handleSliderChange}
           />
         </section>
-            
+
         {/* === Інгредієнти === */}
         <MainIngredientWrapper ingredients={ingredients} />
 
@@ -206,17 +205,20 @@ export const MainComponentFilteredPanel: FC<{ handleInputClick?: () => void }> =
           ))}
         </section>
 
-        <Button 
-        onClick={async () => { 
-          try { 
-            const response = await  fetch(`http://localhost:3000/api/filtering?${filtersParams.toString()}`);
-            const data = await response.json();
-            console.log(data);
-          }catch(err){
-            console.error(err);
-          }
-         }}
-        className="bg-[rgba(254,95,0,1)] py-[15px] w-full max-w-[244px] h-[50px] rounded-[18px] my-[34px] text-white text-[16px]">
+        <Button
+          onClick={async () => {
+            try {
+              const response = await fetch(
+                `http://localhost:3000/api/filtering?${filtersParams.toString()}`
+              )
+              const data = await response.json()
+              console.log(data)
+            } catch (err) {
+              console.error(err)
+            }
+          }}
+          className="bg-[rgba(254,95,0,1)] py-[15px] w-full max-w-[244px] h-[50px] rounded-[18px] my-[34px] text-white text-[16px]"
+        >
           Activate
         </Button>
       </FilteredWrapper>
