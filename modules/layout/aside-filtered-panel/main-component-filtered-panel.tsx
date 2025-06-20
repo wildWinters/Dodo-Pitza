@@ -64,6 +64,8 @@ export const MainComponentFilteredPanel: FC<{ handleInputClick?: () => void }> =
     "40cm": false,
   })
 
+
+
   // === Slider value ===
   const range: [number, number] = [
     typeof ingredientsFilters.priceFrom === "number" ? ingredientsFilters.priceFrom : 0,
@@ -71,15 +73,17 @@ export const MainComponentFilteredPanel: FC<{ handleInputClick?: () => void }> =
   ]
 
   function handleFilterChange(key: BooleanKeys) {
-    setIngredientsFilters((prev) => ({
-      ...prev,
-      [key]: !prev[key],
-    }))
+    setIngredientsFilters((prev) => {
+      const current = prev[key] as boolean
+      return {
+        ...prev,
+        [key]: !current,
+      }
+    })
   }
 
   function handlePriceChange(e: React.ChangeEvent<HTMLInputElement>, key: PriceKeys) {
     const rawValue = e.target.value
-
     const value = rawValue === "" ? "" : Math.max(0, Math.min(5000, Number(rawValue)))
 
     setIngredientsFilters((prev) => {
@@ -88,7 +92,6 @@ export const MainComponentFilteredPanel: FC<{ handleInputClick?: () => void }> =
         [key]: value,
       }
 
-      // Синхронізувати слайдер з input'ами
       if (typeof updated.priceFrom === "number" && typeof updated.priceTo === "number") {
         if (updated.priceFrom > updated.priceTo) {
           if (key === "priceFrom") updated.priceTo = updated.priceFrom
@@ -112,6 +115,18 @@ export const MainComponentFilteredPanel: FC<{ handleInputClick?: () => void }> =
   useEffect(() => {
     console.log("filters updated:", ingredientsFilters)
   }, [ingredientsFilters])
+
+    const filtersParams = new URLSearchParams(
+      Object.entries(ingredientsFilters).map(([key, value]) => [
+        key,
+        typeof value === "string"
+          ? value
+          : Array.isArray(value)
+          ? value.join(",")
+          : String(value),
+      ])
+    )
+    
 
   return (
     <>
@@ -160,8 +175,8 @@ export const MainComponentFilteredPanel: FC<{ handleInputClick?: () => void }> =
                 min={0}
                 max={5000}
                 placeholder={placeholder}
-                value={ingredientsFilters[name]}
-                onChange={(e) => handlePriceChange(e, name)}
+                value={ingredientsFilters[name as keyof IFiteringData]}
+                onChange={(e) => handlePriceChange(e, name as PriceKeys)}
               />
             ))}
           </div>
