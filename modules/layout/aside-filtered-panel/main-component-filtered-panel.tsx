@@ -13,15 +13,15 @@ import { FC, Fragment, useState, useEffect } from "react"
 import { Slider } from "@/ui/slider"
 
 export interface IFiteringData {
-  isAvailable: boolean
-  isNew: boolean
+  isAvailable: boolean | null
+  isNew: boolean | null
   priceFrom: number | string
   priceTo: number | string
-  thin: boolean
-  traditional: boolean
-  "20cm": boolean
-  "30cm": boolean
-  "40cm": boolean
+  thin: boolean | null
+  traditional: boolean | null
+  "20cm": boolean | null
+  "30cm": boolean | null
+  "40cm": boolean | null
 }
 
 type LabelType = "thin" | "traditional"
@@ -50,15 +50,15 @@ export const MainComponentFilteredPanel: FC<{ handleInputClick?: () => void }> =
   const { ingredients, loading, error } = useIngredients()
 
   const [ingredientsFilters, setIngredientsFilters] = useState<IFiteringData>({
-    isAvailable: false,
-    isNew: false,
+    isAvailable: null,
+    isNew: null,
     priceFrom: 0,
     priceTo: 5000,
-    thin: false,
-    traditional: false,
-    "20cm": false,
-    "30cm": false,
-    "40cm": false,
+    thin: null,
+    traditional: null,
+    "20cm": null,
+    "30cm": null,
+    "40cm": null,
   })
 
   const range: [number, number] = [
@@ -68,10 +68,10 @@ export const MainComponentFilteredPanel: FC<{ handleInputClick?: () => void }> =
 
   function handleFilterChange(key: BooleanKeys) {
     setIngredientsFilters((prev) => {
-      const current = prev[key] as boolean
+      const current = prev[key]
       return {
         ...prev,
-        [key]: !current,
+        [key]: current === true ? null : true,
       }
     })
   }
@@ -111,14 +111,24 @@ export const MainComponentFilteredPanel: FC<{ handleInputClick?: () => void }> =
   }, [ingredientsFilters])
 
   const filtersParams = new URLSearchParams(
-    Object.entries(ingredientsFilters).map(([key, value]) => [
-      key,
-      typeof value === "string"
-        ? value
-        : Array.isArray(value)
-        ? value.join(",")
-        : String(value),
-    ])
+    Object.entries(ingredientsFilters)
+      .filter(([key, value]) => {
+        if (typeof value === "boolean") {
+          return value; // тільки якщо true
+        }
+        if ((key === "priceFrom" || key === "priceTo") && value === "") {
+          return false; // не включати порожні priceFrom/priceTo
+        }
+        return true;
+      })
+      .map(([key, value]) => [
+        key,
+        typeof value === "string"
+          ? value
+          : Array.isArray(value)
+          ? value.join(",")
+          : String(value),
+      ])
   )
 
   return (
@@ -169,9 +179,10 @@ export const MainComponentFilteredPanel: FC<{ handleInputClick?: () => void }> =
                 max={5000}
                 placeholder={placeholder}
                 value={
-                  typeof ingredientsFilters[name as keyof IFiteringData] === "number"
-                    ? ingredientsFilters[name as keyof IFiteringData]
-                    : ""
+                  ingredientsFilters[name as keyof IFiteringData] === null ||
+                  typeof ingredientsFilters[name as keyof IFiteringData] === "boolean"
+                    ? ""
+                    : ingredientsFilters[name as keyof IFiteringData]
                 }
                 onChange={(e) => handlePriceChange(e, name as PriceKeys)}
               />
@@ -212,7 +223,7 @@ export const MainComponentFilteredPanel: FC<{ handleInputClick?: () => void }> =
                 `http://localhost:3000/api/filtering?${filtersParams.toString()}`
               )
               const data = await response.json()
-              console.log(data)
+
             } catch (err) {
               console.error(err)
             }
