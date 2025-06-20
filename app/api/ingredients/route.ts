@@ -3,4 +3,3 @@ import { mockIngredients } from "./mock-ingredients";
 export async function GET() {
   return NextResponse.json(mockIngredients);
 }
-

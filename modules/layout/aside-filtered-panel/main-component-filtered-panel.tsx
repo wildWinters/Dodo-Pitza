@@ -20,7 +20,7 @@ export interface IFiteringData {
   priceTo: number | string
   thin: boolean
   traditional: boolean
-  size: number[] | "all"
+  size: number[] | "all" // dont know why 
   "20cm": boolean
   "30cm": boolean
   "40cm": boolean
@@ -63,8 +63,6 @@ export const MainComponentFilteredPanel: FC<{ handleInputClick?: () => void }> =
     "30cm": false,
     "40cm": false,
   })
-
-
 
   // === Slider value ===
   const range: [number, number] = [
@@ -126,7 +124,7 @@ export const MainComponentFilteredPanel: FC<{ handleInputClick?: () => void }> =
           : String(value),
       ])
     )
-    
+
 
   return (
     <>
@@ -189,7 +187,7 @@ export const MainComponentFilteredPanel: FC<{ handleInputClick?: () => void }> =
             onValueChange={handleSliderChange}
           />
         </section>
-
+            
         {/* === Інгредієнти === */}
         <MainIngredientWrapper ingredients={ingredients} />
 
@@ -208,7 +206,17 @@ export const MainComponentFilteredPanel: FC<{ handleInputClick?: () => void }> =
           ))}
         </section>
 
-        <Button className="bg-[rgba(254,95,0,1)] py-[15px] w-full max-w-[244px] h-[50px] rounded-[18px] my-[34px] text-white text-[16px]">
+        <Button 
+        onClick={async () => { 
+          try { 
+            const response = await  fetch(`http://localhost:3000/api/filtering?${filtersParams.toString()}`);
+            const data = await response.json();
+            console.log(data);
+          }catch(err){
+            console.error(err);
+          }
+         }}
+        className="bg-[rgba(254,95,0,1)] py-[15px] w-full max-w-[244px] h-[50px] rounded-[18px] my-[34px] text-white text-[16px]">
           Activate
         </Button>
       </FilteredWrapper>
