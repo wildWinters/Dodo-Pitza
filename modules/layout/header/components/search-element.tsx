@@ -34,7 +34,7 @@ export const SearchElement: FC<ISearchElement> = ({
         )}
       >
         <span>Nothing found</span>
-        {/* <Skeleton className={cn(isLoading ?  "hidden" : "block", "w-full h-[40px]" )}/> */}
+        <Skeleton className={cn(isLoading ?  "hidden" : "block", "w-full h-[40px]" )}/>
       </div>
     );
 
@@ -71,7 +71,7 @@ export const SearchElement: FC<ISearchElement> = ({
               {ingredient.name}
             </Link>
           </div>
-          {/* <Skeleton className={cn(isLoading ?  "hidden" : "block", "w-full h-[40px]" )}/> */}
+          <Skeleton className={cn(isLoading ?  "hidden" : "block", "w-full h-[40px]" )}/>
         </div>
       ))}
     </div>
