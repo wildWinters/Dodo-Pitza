@@ -49,7 +49,7 @@ export const InputContainer: FC = () => {
         <Search className="text-[rgba(173,173,173,1)]" size={17} />
         <Input
           value={enteredValue}
-          onChange={(e) => setEnteredValue(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEnteredValue(e.target.value)}
           onClick={openModal}
           className="w-full border-none outline-none"
           placeholder="Пошук Піци"

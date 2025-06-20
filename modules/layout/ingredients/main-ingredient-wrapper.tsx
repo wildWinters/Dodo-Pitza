@@ -55,7 +55,7 @@ export const MainIngredientWrapper: React.FC<TMainIngredientWrapper> = ({ classN
             label={item.name}
             onClick={() => addOrRemoveFromArray(item.id, setIngredientsFilters)}
           />
-          {/* <Skeleton className="flex flex-1 min-h-[30px]"/> */}
+          <Skeleton className="flex flex-1 min-h-[30px]"/>
         </Fragment>
       ))}
 
