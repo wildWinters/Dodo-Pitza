@@ -3,6 +3,7 @@ import Image from "next/image";
 import { nunito400, nunito600, nunito700 } from "@/font/fonts";
 import { cn } from "@/lib/utils";
 import { Tabs, TabsList, TabsTrigger } from "@/ui/tabs"
+import { Button } from "@/ui/button";
 
 import {
   Dialog,
@@ -101,7 +102,7 @@ export const PizzaPriceBlock: React.FC<PizzaPriceBlockProps> = ({
 
             <div className="flex flex-col">
               <span className={`${nunito600.className} font-[600]`}>Добавить по вкусу</span>
-                <div className="flex gap-[14px]">
+                <div className="flex gap-[14px] items-center justify-center">
                       {Array.from({ length: 3 }).map((_, index) => ( 
                       <> 
                         <div className="rounded-[15px] flex max-w-[130] flex-col px-[10px] pt-[12px] pb-[10px] w-full bg-white" key={index}>
@@ -114,9 +115,15 @@ export const PizzaPriceBlock: React.FC<PizzaPriceBlockProps> = ({
                           <span className="text-[12px]">Сирний Ботик</span>
                           <span className="">179P</span>
                         </div>
+
                       </>
                     ))}
                 </div>
+                <Button
+                  className={`bg-[rgba(254,95,0,1)] mx-auto py-[15px] w-full max-w-[418px] h-[50px] rounded-[18px] my-[34px] text-white text-[16px]`}
+                >
+                  Додай корзину через Ореста 
+                </Button>
             </div>
           </div>
         </DialogContent>
