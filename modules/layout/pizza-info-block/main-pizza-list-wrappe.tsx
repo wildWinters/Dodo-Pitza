@@ -10,6 +10,8 @@ import { PizzaPriceBlock } from "./components/pizza-price-block";
 import { PizzaWrapper } from "./components/pizza-wrapper";
 
 
+
+
 export type TypeMainPizzaListWrapper = { 
   children?: ReactNode;
   className?: string;
