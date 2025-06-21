@@ -17,7 +17,7 @@ export const MainComponentsOfTabList: React.FC<TMainComponentsOfTabList> = ({
   return (
     <div
       className={cn(
-        "rounded-[30px] flex items-center w-full justify-between my-[42px] gap-[50px] border-b border-b-[rgba(237,237,237,1)]",
+        "sticky top-0 z-10 bg-white rounded-[30px] flex items-center w-full justify-between my-[42px] gap-[50px] border-b border-b-[rgba(237,237,237,1)]",
         className
       )}
       {...props}

@@ -6,7 +6,9 @@ import { DirectionWrapper } from "../wrapper/direction-wrapper"
 export const TabLister:React.FC<IBasedProps> = ({children}) =>{ 
 
     return ( 
-        <DirectionWrapper direction="column" className={cn("direction-wrapper w-full gap-[20px]")}>
+        <DirectionWrapper  
+         direction="column" 
+         className={cn(" sticky top-0 direction-wrapper w-full gap-[20px]")}>
             <span className={`text-[clamp(20px,4vw,36px)] ${nunito800.className}`}>Всі Піцци</span>
             {children}
         </DirectionWrapper>

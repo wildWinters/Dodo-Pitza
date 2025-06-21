@@ -1,4 +1,5 @@
 "use client"
+
 import { nunito700 } from "@/font/fonts"
 import { cn } from "@/lib/utils"
 import { inputsData, IInputsData } from "@/modules/main-page/mock/mock-input-data"
@@ -9,7 +10,7 @@ import { MainIngredientWrapper } from "../ingredients/main-ingredient-wrapper"
 import { FilterOption } from "./components/filter-option"
 import { FilteredWrapper } from "./components/filtered-wrapper"
 import { RadioFilterBlock } from "./components/radio-filter-description"
-import { FC, Fragment, useState, useEffect } from "react"
+import { FC, useState, useEffect } from "react"
 import { Slider } from "@/ui/slider"
 import { Skeleton } from "@/components/ui/skeleton"
 
@@ -39,16 +40,21 @@ const mockRadioGroup: IMockRadioGroup[] = [
   { id: "2", label: "traditional" },
 ]
 
-const sizeOptions = [
+const sizeOptions: { label: BooleanKeys }[] = [
   { label: "20cm" },
   { label: "30cm" },
   { label: "40cm" },
 ]
 
+const filterOptions: { label: string; key: BooleanKeys }[] = [
+  { label: "Можна збирати", key: "isAvailable" },
+  { label: "Новинки", key: "isNew" },
+]
+
 export const MainComponentFilteredPanel: FC<{ handleInputClick?: () => void }> = () => {
   const titleClass = cn("text-[22px]", nunito700.className)
   const subtitleClass = cn(nunito700.className, "text-[16px]")
-  const { ingredients, loading, error } = useIngredients()
+  const { ingredients, loading } = useIngredients()
 
   const [ingredientsFilters, setIngredientsFilters] = useState<IFiteringData>({
     isAvailable: null,
@@ -89,8 +95,11 @@ export const MainComponentFilteredPanel: FC<{ handleInputClick?: () => void }> =
 
       if (typeof updated.priceFrom === "number" && typeof updated.priceTo === "number") {
         if (updated.priceFrom > updated.priceTo) {
-          if (key === "priceFrom") updated.priceTo = updated.priceFrom
-          else updated.priceFrom = updated.priceTo
+          if (key === "priceFrom") {
+            updated.priceTo = updated.priceFrom
+          } else {
+            updated.priceFrom = updated.priceTo
+          }
         }
       }
 
@@ -129,128 +138,149 @@ export const MainComponentFilteredPanel: FC<{ handleInputClick?: () => void }> =
   )
 
   return (
-    <>
-      <FilteredWrapper>
-        {/* === Тип тіста === */}
-        <section className="flex flex-col gap-[30px] border-b pb-[20px] border-[rgba(246,246,246,1)]">
-          <span className={titleClass}>Тип тіста:</span>
-          <div className="flex flex-col gap-[15px]">
-            {loading
-              ? sizeOptions.map(({ label }) => (
-                  <Skeleton key={label} className="h-[40px] w-full rounded-md" />
-                ))
-              : sizeOptions.map(({ label }) => (
-                  <FilterOption
-                    key={label}
-                    label={label}
-                    onClick={() => handleFilterChange(label as BooleanKeys)}
-                  />
-                ))}
-          </div>
-        </section>
+    <FilteredWrapper>
 
-        {/* === Додаткові фільтри === */}
-        <section className="flex flex-col gap-[30px] border-b pb-[20px] border-[rgba(246,246,246,1)]">
-          <span className={titleClass}>Filtering</span>
-          <div className="flex flex-col gap-[15px]">
-            {loading ? (
-              <>
-                <Skeleton className="h-[40px] w-full rounded-md" />
-                <Skeleton className="h-[40px] w-full rounded-md" />
-              </>
-            ) : (
-              <>
-                <FilterOption label="Можна збирати" onClick={() => handleFilterChange("isAvailable")} />
-                <FilterOption label="Новинки" onClick={() => handleFilterChange("isNew")} />
-              </>
-            )}
-          </div>
-        </section>
+      <section className="flex flex-col gap-[30px] border-b pb-[20px] border-[rgba(246,246,246,1)]">
+        <span className={titleClass}>Тип тіста:</span>
+        <div className="flex flex-col gap-[15px]">
+          {sizeOptions.map(({ label }) => (
+            <Skeleton
+              key={label}
+              className={cn("h-[40px] w-full rounded-md", loading ? "" : "hidden")}
+            />
+          ))}
+          {sizeOptions.map(({ label }) => (
+            <FilterOption
+              key={label}
+              label={label}
+              onClick={() => handleFilterChange(label)}
+              className={cn(loading ? "hidden" : "")}
+            />
+          ))}
+        </div>
+      </section>
 
-        {/* === Ціна від і до === */}
-        <section className="mt-5 border-y border-y-neutral-100 py-6 pb-7">
-          <p className="font-bold mb-[12px]">Ціна від і до:</p>
-          <div className="flex gap-3 mb-5">
-            {loading
-              ? [1, 2].map((i) => <Skeleton key={i} className="w-[90px] h-[40px] rounded-md" />)
-              : inputsData.map(({ id, placeholder, name }: IInputsData) => (
-                  <Input
-                    key={id}
-                    type="number"
-                    className="w-[90px] h-[40px] border border-[rgba(240,240,240,1)]"
-                    min={0}
-                    max={5000}
-                    placeholder={placeholder}
-                    value={
-                      ingredientsFilters[name as keyof IFiteringData] === null ||
-                      typeof ingredientsFilters[name as keyof IFiteringData] === "boolean"
-                        ? ""
-                        : ingredientsFilters[name as keyof IFiteringData]
-                    }
-                    onChange={(e) => handlePriceChange(e, name as PriceKeys)}
-                  />
-                ))}
-          </div>
-          {loading ? (
-            <Skeleton className="h-[24px] w-full rounded-md" />
-          ) : (
-            <Slider
-              className="bg-orange-400"
-              value={range}
+      {/* === Додаткові фільтри === */}
+      <section className="flex flex-col gap-[30px] border-b pb-[20px] border-[rgba(246,246,246,1)]">
+        <span className={titleClass}>Filtering</span>
+        <div className="flex flex-col gap-[15px]">
+          {Array.from({ length: 2 }).map((_, i) => (
+            <Skeleton
+              key={i}
+              className={cn("h-[40px] w-full rounded-md", loading ? "" : "hidden")}
+            />
+          ))}
+          {filterOptions.map(({ label, key }) => (
+            <FilterOption
+              key={key}
+              label={label}
+              onClick={() => handleFilterChange(key)}
+              className={cn(loading ? "hidden" : "")}
+            />
+          ))}
+        </div>
+      </section>
+
+      {/* === Ціна від і до === */}
+      <section className="mt-5 border-y border-y-neutral-100 py-6 pb-7">
+        <p className="font-bold mb-[12px]">Ціна від і до:</p>
+        <div className="flex gap-3 mb-5">
+          {Array.from({ length: 2 }).map((_, index) => (
+            <Skeleton
+              key={index}
+              className={cn(loading ? "" : "hidden", "w-[90px] h-[40px] rounded-md")}
+            />
+          ))}
+
+          {inputsData.map(({ id, placeholder, name }: IInputsData) => (
+            <Input
+              key={id}
+              type="number"
+              className={cn(
+                !loading ? "" : "hidden",
+                "w-[90px] h-[40px] border border-[rgba(240,240,240,1)]"
+              )}
               min={0}
               max={5000}
-              step={1}
-              onValueChange={handleSliderChange}
+              placeholder={placeholder}
+              value={
+                ingredientsFilters[name as keyof IFiteringData] === null ||
+                typeof ingredientsFilters[name as keyof IFiteringData] === "boolean"
+                  ? ""
+                  : ingredientsFilters[name as keyof IFiteringData]
+              }
+              onChange={(e) => handlePriceChange(e, name as PriceKeys)}
             />
-          )}
-        </section>
+          ))}
+        </div>
 
-        {/* === Інгредієнти === */}
-        {loading ? (
-          <div className="flex flex-col gap-2 mt-5">
-            {[...Array(5)].map((_, i) => (
-              <Skeleton key={i} className="h-[40px] w-full rounded-md" />
-            ))}
-          </div>
-        ) : (
-          <MainIngredientWrapper ingredients={ingredients} />
-        )}
+        <Skeleton
+          className={cn(loading ? "" : "hidden", "h-[24px] w-full rounded-md")}
+        />
+        <Slider
+          className={cn(!loading ? "" : "hidden", "bg-orange-400")}
+          value={range}
+          min={0}
+          max={5000}
+          step={1}
+          onValueChange={handleSliderChange}
+        />
+      </section>
 
-        {/* === Радіо-фільтри === */}
-        <section className="mt-[42px]">
-          <span className={subtitleClass}>Тип Теста</span>
-          <div className="flex flex-col gap-2 mt-2">
-            {loading
-              ? [1, 2].map((i) => <Skeleton key={i} className="h-[40px] w-full rounded-md" />)
-              : mockRadioGroup.map(({ id, label }) => (
-                  <RadioFilterBlock
-                    key={id}
-                    id={id}
-                    label={label}
-                    value={label}
-                    onClick={() => handleFilterChange(label)}
-                  />
-                ))}
-          </div>
-        </section>
+      {/* === Інгредієнти (Skeleton + Wrapper) === */}
+      <div className="flex flex-col gap-2 mt-5">
+        {[...Array(5)].map((_, i) => (
+          <Skeleton
+            key={i}
+            className={cn("h-[40px] w-full rounded-md", loading ? "" : "hidden")}
+          />
+        ))}
+      </div>
 
-        <Button
-          onClick={async () => {
-            try {
-              const response = await fetch(
-                `http://localhost:3000/api/filtering?${filtersParams.toString()}`
-              )
-              const data = await response.json()
-              console.log(data)
-            } catch (err) {
-              console.error(err)
-            }
-          }}
-          className="bg-[rgba(254,95,0,1)] py-[15px] w-full max-w-[244px] h-[50px] rounded-[18px] my-[34px] text-white text-[16px]"
-        >
-          Activate
-        </Button>
-      </FilteredWrapper>
-    </>
+      <MainIngredientWrapper
+        className={cn(!loading ? "" : "hidden")}
+        ingredients={ingredients}
+      />
+
+      {/* === Тип Теста (Radio блоки) === */}
+      <section className="mt-[42px]">
+        <span className={subtitleClass}>Тип Теста</span>
+        <div className="flex flex-col gap-2 mt-2">
+          {Array.from({ length: 2 }).map((_, index) => (
+            <Skeleton
+              key={index}
+              className={cn("h-[40px] w-full rounded-md", loading ? "" : "hidden")}
+            />
+          ))}
+          {mockRadioGroup.map(({ id, label }) => (
+            <RadioFilterBlock
+              key={id}
+              id={id}
+              label={label}
+              value={label}
+              className={cn(!loading ? "" : "hidden")}
+              onClick={() => handleFilterChange(label)}
+            />
+          ))}
+        </div>
+      </section>
+      
+      <Button
+        onClick={async () => {
+          try {
+            const response = await fetch(
+              `http://localhost:3000/api/filtering?${filtersParams.toString()}`
+            )
+            const data = await response.json()
+            console.log(data)
+          } catch (err) {
+            console.error(err)
+          }
+        }}
+        className="bg-[rgba(254,95,0,1)] py-[15px] w-full max-w-[244px] h-[50px] rounded-[18px] my-[34px] text-white text-[16px]"
+      >
+        Activate
+      </Button>
+    </FilteredWrapper>
   )
 }
