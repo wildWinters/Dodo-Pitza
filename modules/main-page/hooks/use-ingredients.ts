@@ -19,7 +19,6 @@ export const useIngredients = () => {
         console.error('Error fetching ingredients:', err);
       }
     };
-
     fetchIngredients();
   }, []);
 

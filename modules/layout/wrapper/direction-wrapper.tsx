@@ -14,6 +14,7 @@ export const DirectionWrapper: React.FC<IDirectionWrapper> = ({
 }) => {
   return (
     <div
+
       className={cn(
         `flex  ${direction === 'row' ? 'flex-row gap-[15px] items-center' : 'flex-col justify-center'}`,
         className
