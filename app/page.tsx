@@ -19,7 +19,7 @@ export default function Home() {
           <div id="scrollContainer" className={gridContainerClass}>
             <MainPizzaListWrapper mockRenderPitza={mockPizzas} />
           </div>
-          <aside className="w-[244px] flex-shrink-0">
+          <aside className="w-[244px] flex-shrink-0 ">
             <MainComponentFilteredPanel />
           </aside>
         </div>
