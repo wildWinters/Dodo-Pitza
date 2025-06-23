@@ -16,7 +16,6 @@ import {
   SizeMode,
   DoughType,
   IAdditionItem,
-  cardBorder,
 } from "@/modules/main-page/types/index";
 import { CircleCheck } from "lucide-react";
 import { TabList } from '@/components/ui/full-tab-list';
@@ -27,46 +26,67 @@ export const PizzaPriceBlock: React.FC<IPizzaPriceBlockProps> = ({
   buttonMode,
   src,
 }) => {
-  const [sizeMode, setSizeMode] = useState<SizeMode>(undefined); 
-  const [doughType, setDoughType] = useState<DoughType>(null);
-  const [cardBorder, setCardBorder] = useState<cardBorder>(null);
-  const [isBorderExistsOnIndex, setIsBorderExistsOnIndex] = useState<number[]>([]);
-  const [isClickedOnTopping, setIsClickedOnTopping] = useState<boolean[]>(
-    new Array(mockAdditions.length).fill(false)
-  );
+  const [sizeMode, setSizeMode] = useState<SizeMode>();
+  const [doughType, setDoughType] = useState<DoughType>();
+  const [selectedAdditions, setSelectedAdditions] = useState<Set<number>>(new Set());
   const [chosenTopics, setChosenTopics] = useState<Set<string>>(new Set());
 
   const sizePitza = {
-    "small": "20cm",
-    "medium": "30cm",
-    "big": "40cm",  
+    small: "20cm",
+    medium: "30cm",
+    big: "40cm",
   };
 
   const priceProduct = useMemo(() => {
-    const selectedAdditionsSum = isBorderExistsOnIndex.reduce(
-      (sum, idx) => sum + Number(mockAdditions[idx].price),
+    const additionsSum = [...selectedAdditions].reduce(
+      (sum, index) => sum + Number(mockAdditions[index].price),
       0
     );
-    return Number(price) + selectedAdditionsSum;
-  }, [price, isBorderExistsOnIndex]);
+    return Number(price) + additionsSum;
+  }, [price, selectedAdditions]);
 
-  const handleToppingClick = (index: number, toppingPrice: number) => {
-    setIsClickedOnTopping((prev) =>
-      prev.map((item, i) => (i === index ? !item : item))
+  const toggleAddition = (index: number, name: string) => {
+    setSelectedAdditions(prev => {
+      const newSet = new Set(prev);
+      newSet.has(index) ? newSet.delete(index) : newSet.add(index);
+      return newSet;
+    });
+
+    setChosenTopics(prev => {
+      const newSet = new Set(prev);
+      newSet.has(name) ? newSet.delete(name) : newSet.add(name);
+      return newSet;
+    });
+  };
+
+  const renderAdditionItem = (item: IAdditionItem, index: number) => {
+    const isSelected = selectedAdditions.has(index);
+
+    return (
+      <div
+        key={item.name}
+        onClick={() => toggleAddition(index, item.name)}
+        className={cn(
+          "relative rounded-[15px] flex max-w-[130px] flex-col px-[10px] pt-[12px] pb-[10px] w-full bg-white cursor-pointer",
+          isSelected && "border-2 border-[rgba(254,95,0,1)]"
+        )}
+      >
+        {isSelected && (
+          <CircleCheck className="rounded-full border-[rgba(254,95,0,1)] absolute top-1 right-1 w-[28px] h-[28px] text-[rgba(254,95,0,1)]" />
+        )}
+
+        <Image src={item.icon} width={110} height={110} alt={item.name} />
+        <span className="text-[12px] text-center">{item.name}</span>
+        <span className="text-center">{item.price}</span>
+      </div>
     );
-    setIsBorderExistsOnIndex((prev) =>
-      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
-    );
-    setCardBorder(index);
   };
 
   return (
-    <div
-      className={cn(
-        "flex items-center justify-between rounded-[15px] w-full py-2",
-        className
-      )}
-    >
+    <div className={cn(
+      "flex items-center justify-between rounded-[15px] w-full py-2",
+      className
+    )}>
       <span className={nunito700.className}>
         від {price} <span className="text-[20px]">$</span>
       </span>
@@ -108,46 +128,14 @@ export const PizzaPriceBlock: React.FC<IPizzaPriceBlockProps> = ({
               <TabList setState={setSizeMode} mock={mockSizeTabs} />
               <TabList setState={setDoughType} mock={mockDoughTabs} />
             </div>
-            
+
             <div className="flex flex-col">
               <span className={`${nunito600.className} font-[600]`}>Додати по смаку</span>
 
               <div className="flex flex-wrap justify-center items-center gap-3">
-                {mockAdditions.map((item: IAdditionItem, index) => (
-                  <div
-                    key={item.name}
-                    onClick={() => { 
-                      handleToppingClick(index, Number(item.price));  
-                      setChosenTopics(prev => {
-                        const newSet = new Set(prev);
-                        if (newSet.has(item.name)) {
-                          newSet.delete(item.name);
-                        } else {
-                          newSet.add(item.name);
-                        }
-                        return newSet;
-                      });
-                    }}
-                    className={cn(
-                      "relative rounded-[15px] flex max-w-[130px] flex-col px-[10px] pt-[12px] pb-[10px] w-full bg-white cursor-pointer",
-                      isBorderExistsOnIndex.includes(index) && "border-2 border-[rgba(254,95,0,1)]"
-                    )}
-                  >
-                    {isBorderExistsOnIndex.includes(index) && (
-                      <CircleCheck className="rounded-full border-[rgba(254,95,0,1)] absolute top-1 right-1 w-[28px] h-[28px] text-[rgba(254,95,0,1)]" />
-                    )}
-
-                    <Image
-                      src={item.icon}
-                      width={110}
-                      height={110}
-                      alt={item.name}
-                    />
-                    <span className="text-[12px] text-center">{item.name}</span>
-                    <span className="text-center">{item.price}</span>
-                  </div>
-                ))}
+                {mockAdditions.map(renderAdditionItem)}
               </div>
+
               <Button className="bg-[rgba(254,95,0,1)] mx-auto py-[15px] w-full max-w-[418px] h-[50px] rounded-[18px] my-[34px] text-white text-[16px]">
                 Додай корзину {priceProduct}
               </Button>
