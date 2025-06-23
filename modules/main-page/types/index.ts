@@ -17,7 +17,7 @@ export type  priceProduct =  number;
 export type ButtonDescription = "Собрать" | "Додати";
 export type Mode = "button" | "counter";
 export type SizeMode = "small" | "medium" | "big" | null;
-export type DoughType = "thin" | "traditional";
+export type DoughType = "thin" | "traditional" | null;
 
 export interface IPizzaPriceBlockProps {
     className?: string;

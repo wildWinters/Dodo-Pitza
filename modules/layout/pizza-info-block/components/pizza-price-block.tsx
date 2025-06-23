@@ -28,15 +28,14 @@ export const PizzaPriceBlock: React.FC<IPizzaPriceBlockProps> = ({
   buttonMode,
   src,
 }) => {
-  const [sizeMode, setSizeMode] = useState<SizeMode>(null);
-  const [doughType, setDoughType] = useState<DoughType | null>(null);
-  const [cardBorder, setCardBorder] = useState<cardBorder>(null);
+  const [sizeMode, setSizeMode] = useState<SizeMode>(null);  
+  const [doughType, setDoughType] = useState<DoughType>(null); 
+  const [cardBorder, setCardBorder] = useState<cardBorder>(null);  
   const [isBorderExistsOnIndex, setIsBorderExistsOnIndex] = useState<number[]>([]);
-  const [isClickedOnTopping, setIsClickedOnTopping] = useState<boolean[]>(
+  const [isClickedOnTopping, setIsClickedOnTopping] = useState<boolean[]>( 
     new Array(mockAdditions.length).fill(false)
   );
 
-  // Динамічний підрахунок ціни
   const priceProduct = useMemo(() => {
     const selectedAdditionsSum = isBorderExistsOnIndex.reduce(
       (sum, idx) => sum + Number(mockAdditions[idx].price),
@@ -73,20 +72,31 @@ export const PizzaPriceBlock: React.FC<IPizzaPriceBlockProps> = ({
           {buttonMode}
         </DialogTrigger>
         <DialogContent className="flex rounded-[30px]  min-h-[580px] w-fit rounded-4">
-          <div className="flex my-[66px] justify-center items-center w-fit h-full">
-            <div className="relative w-[450px] h-[450px] rounded-full border-2 border-dashed border-[rgba(222,222,222,1)] flex items-center justify-center">
-              <div className="w-[375px] h-[375px] rounded-full border-2 border-dashed border-[rgba(222,222,222,1)] flex items-center justify-center">
-                <Image
-                  src={src || "/dodo.avif"}
-                  alt="image-pitza"
-                  width={300}
-                  height={300}
-                  priority
-                  className="rounded-full object-cover"
-                />
-              </div>
+        <div className="flex my-[66px] justify-center items-center w-fit h-full">
+          <div className="relative w-[450px] h-[450px] rounded-full border-2 border-dashed border-[rgba(222,222,222,1)] flex items-center justify-center">
+            <div className="relative w-[375px] h-[375px] rounded-full border-2 border-dashed border-[rgba(222,222,222,1)] flex items-center justify-center">
+              <Image
+                src={src || "/dodo.avif"}
+                alt="image-pitza"
+                width={
+                  sizeMode === "big" ? 450 :
+                  sizeMode === "medium" ? 375 :
+                  300
+                }
+                height={
+                  sizeMode === "big" ? 450 :  
+                  sizeMode === "medium" ? 375 :
+                  300
+                }
+                priority
+                className={cn(
+                  "absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full"
+                )}
+              />
             </div>
           </div>
+        </div>
+
 
           <div className="bg-[rgba(244,241,238,1)] flex flex-col gap-[10px] w-[500px] rounded-r-[30px] min-h-[100%] px-[40px]">
             <span className={`text-[24px] font-[700] ${nunito700.className}`}>Паперони фреш</span>
@@ -102,7 +112,9 @@ export const PizzaPriceBlock: React.FC<IPizzaPriceBlockProps> = ({
                       key={value}
                       className="px-4 h-[30px] rounded-[30px] text-sm font-medium data-[state=active]:bg-white"
                       value={value}
-                      onClick={() => setSizeMode(value as SizeMode)}
+                      onClick={() => {setSizeMode(value as SizeMode) 
+                        setTimeout(() => console.log(sizeMode),2000);
+                      }}
                     >
                       {label}
                     </TabsTrigger>
@@ -144,9 +156,16 @@ export const PizzaPriceBlock: React.FC<IPizzaPriceBlockProps> = ({
                     )}
                   >
                     {isBorderExistsOnIndex.includes(index) && (
-                      <Check className="rounded-full border-2 border-[rgba(254,95,0,1)] aspect-square flex items-center justify-center absolute top-1 right-1 w-[18px] h-[18px] text-[rgba(254,95,0,1)]" />
+                      <Check 
+                        className="rounded-full border-2 border-[rgba(254,95,0,1)] aspect-square flex items-center justify-center absolute top-1 right-1 w-[18px] h-[18px] text-[rgba(254,95,0,1)]" />
                     )}
-                    <Image src={item.icon} width={110} height={110} alt={item.name} />
+
+                    <Image 
+                      src={item.icon}
+                      width={110}
+                      height={110}
+                      alt={item.name}
+                    />
                     <span className="text-[12px] text-center">{item.name}</span>
                     <span className="text-center">{item.price}</span>
                   </div>
