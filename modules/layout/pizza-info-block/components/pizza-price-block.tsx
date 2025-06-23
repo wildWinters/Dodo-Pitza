@@ -1,4 +1,4 @@
-import { useState, useMemo, Dispatch, SetStateAction } from 'react';
+import { useState, useMemo } from 'react';
 import Image from "next/image";
 import { nunito400, nunito600, nunito700 } from "@/font/fonts";
 import { cn } from "@/lib/utils";
@@ -34,14 +34,13 @@ export const PizzaPriceBlock: React.FC<IPizzaPriceBlockProps> = ({
   const [isClickedOnTopping, setIsClickedOnTopping] = useState<boolean[]>(
     new Array(mockAdditions.length).fill(false)
   );
+  const [chosenTopics, setChosenTopics] = useState<Set<string>>(new Set());
 
   const sizePitza = {
     "small": "20cm",
     "medium": "30cm",
-    "big": "40cm",
-    undefined:null 
-   }
-
+    "big": "40cm",  
+  };
 
   const priceProduct = useMemo(() => {
     const selectedAdditionsSum = isBorderExistsOnIndex.reduce(
@@ -77,9 +76,9 @@ export const PizzaPriceBlock: React.FC<IPizzaPriceBlockProps> = ({
           {buttonMode}
         </DialogTrigger>
 
-        <DialogContent className="flex  rounded-[30px] min-h-[580px] w-fit">
+        <DialogContent className="flex rounded-[30px] min-h-[580px] w-fit">
           {/* Pizza image block */}
-          <div className="flex  mx-[20px] my-[66px] justify-center items-center w-fit h-full">
+          <div className="flex mx-[20px] my-[66px] justify-center items-center w-fit h-full">
             <div className="relative w-[450px] h-[450px] rounded-full border-2 border-dashed border-[rgba(222,222,222,1)] flex items-center justify-center">
               <div className="relative w-[375px] h-[375px] rounded-full border-2 border-dashed border-[rgba(222,222,222,1)] flex items-center justify-center">
                 <Image
@@ -89,9 +88,9 @@ export const PizzaPriceBlock: React.FC<IPizzaPriceBlockProps> = ({
                   width={1000}
                   height={1000}
                   className={cn(
-                    "absolute min-w-[300px]  duration-500 transition-all min-h-[300px] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full",
+                    "absolute min-w-[300px] duration-500 transition-all min-h-[300px] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full",
                     sizeMode === "medium" && "min-w-[458px] min-h-[452px] aspect-square",
-                    sizeMode === "big" && "min-w-[550px] min-h-[540px] "
+                    sizeMode === "big" && "min-w-[550px] min-h-[540px]"
                   )}
                 />
               </div>
@@ -100,13 +99,14 @@ export const PizzaPriceBlock: React.FC<IPizzaPriceBlockProps> = ({
 
           <div className="bg-[rgba(244,241,238,1)] flex flex-col gap-[10px] w-[500px] rounded-r-[30px] min-h-[100%] px-[40px]">
             <span className={`text-[24px] font-[700] ${nunito700.className}`}>Паперони фреш</span>
-            <span className={`${nunito400.className} font-[400] text-[rgba(119,119,119,1)]`}>
-              {sizeMode ? sizePitza[sizeMode] : ''} {doughType} pizza
+            <span className="text-base text-gray-600 font-normal">
+              {sizeMode ? sizePitza[sizeMode] : ''} {doughType} піца
+              {chosenTopics.size > 0 && ` з: ${Array.from(chosenTopics).join(", ")}`}
             </span>
 
             <div className="flex flex-col gap-[10px]">
-              <TabList  setState={setSizeMode} mock={mockSizeTabs} />
-              <TabList  setState={setDoughType} mock={mockDoughTabs} />
+              <TabList setState={setSizeMode} mock={mockSizeTabs} />
+              <TabList setState={setDoughType} mock={mockDoughTabs} />
             </div>
             
             <div className="flex flex-col">
@@ -116,14 +116,25 @@ export const PizzaPriceBlock: React.FC<IPizzaPriceBlockProps> = ({
                 {mockAdditions.map((item: IAdditionItem, index) => (
                   <div
                     key={item.name}
-                    onClick={() => handleToppingClick(index, Number(item.price))}
+                    onClick={() => { 
+                      handleToppingClick(index, Number(item.price));  
+                      setChosenTopics(prev => {
+                        const newSet = new Set(prev);
+                        if (newSet.has(item.name)) {
+                          newSet.delete(item.name);
+                        } else {
+                          newSet.add(item.name);
+                        }
+                        return newSet;
+                      });
+                    }}
                     className={cn(
                       "relative rounded-[15px] flex max-w-[130px] flex-col px-[10px] pt-[12px] pb-[10px] w-full bg-white cursor-pointer",
                       isBorderExistsOnIndex.includes(index) && "border-2 border-[rgba(254,95,0,1)]"
                     )}
                   >
                     {isBorderExistsOnIndex.includes(index) && (
-                      <CircleCheck className="rounded-full  border-[rgba(254,95,0,1)]  absolute top-1 right-1 w-[28px] h-[28px] text-[rgba(254,95,0,1)]" />
+                      <CircleCheck className="rounded-full border-[rgba(254,95,0,1)] absolute top-1 right-1 w-[28px] h-[28px] text-[rgba(254,95,0,1)]" />
                     )}
 
                     <Image
@@ -141,13 +152,9 @@ export const PizzaPriceBlock: React.FC<IPizzaPriceBlockProps> = ({
                 Додай корзину {priceProduct}
               </Button>
             </div>
-
           </div>
         </DialogContent>
       </Dialog>
     </div>
   );
 };
-
-
-
