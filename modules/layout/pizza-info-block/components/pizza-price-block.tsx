@@ -1,10 +1,8 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, Dispatch, SetStateAction } from 'react';
 import Image from "next/image";
 import { nunito400, nunito600, nunito700 } from "@/font/fonts";
 import { cn } from "@/lib/utils";
-import { Tabs, TabsList, TabsTrigger } from "@/ui/tabs";
 import { Button } from "@/ui/button";
-import { Check } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -20,7 +18,8 @@ import {
   IAdditionItem,
   cardBorder,
 } from "@/modules/main-page/types/index";
-import { addOrRemoveFromArray } from "@/utils/add-or-remove-from-array";
+import { CircleCheck } from "lucide-react";
+import { TabList } from '@/components/ui/full-tab-list';
 
 export const PizzaPriceBlock: React.FC<IPizzaPriceBlockProps> = ({
   className,
@@ -28,11 +27,11 @@ export const PizzaPriceBlock: React.FC<IPizzaPriceBlockProps> = ({
   buttonMode,
   src,
 }) => {
-  const [sizeMode, setSizeMode] = useState<SizeMode>(null);  
-  const [doughType, setDoughType] = useState<DoughType>(null); 
-  const [cardBorder, setCardBorder] = useState<cardBorder>(null);  
+  const [sizeMode, setSizeMode] = useState<SizeMode>(undefined); 
+  const [doughType, setDoughType] = useState<DoughType>(null);
+  const [cardBorder, setCardBorder] = useState<cardBorder>(null);
   const [isBorderExistsOnIndex, setIsBorderExistsOnIndex] = useState<number[]>([]);
-  const [isClickedOnTopping, setIsClickedOnTopping] = useState<boolean[]>( 
+  const [isClickedOnTopping, setIsClickedOnTopping] = useState<boolean[]>(
     new Array(mockAdditions.length).fill(false)
   );
 
@@ -61,9 +60,7 @@ export const PizzaPriceBlock: React.FC<IPizzaPriceBlockProps> = ({
         className
       )}
     >
-      <span
-        className={nunito700.className}
-      >
+      <span className={nunito700.className}>
         від {price} <span className="text-[20px]">$</span>
       </span>
 
@@ -71,32 +68,27 @@ export const PizzaPriceBlock: React.FC<IPizzaPriceBlockProps> = ({
         <DialogTrigger className="px-3 py-1 text-sm rounded-[8px] border-none text-[rgba(254,95,0,1)] bg-[rgba(255,250,244,1)]">
           {buttonMode}
         </DialogTrigger>
-        <DialogContent className="flex rounded-[30px]  min-h-[580px] w-fit rounded-4">
-        <div className="flex my-[66px] justify-center items-center w-fit h-full">
-          <div className="relative w-[450px] h-[450px] rounded-full border-2 border-dashed border-[rgba(222,222,222,1)] flex items-center justify-center">
-            <div className="relative w-[375px] h-[375px] rounded-full border-2 border-dashed border-[rgba(222,222,222,1)] flex items-center justify-center">
-              <Image
-                src={src || "/dodo.avif"}
-                alt="image-pitza"
-                width={
-                  sizeMode === "big" ? 450 :
-                  sizeMode === "medium" ? 375 :
-                  300
-                }
-                height={
-                  sizeMode === "big" ? 450 :  
-                  sizeMode === "medium" ? 375 :
-                  300
-                }
-                priority
-                className={cn(
-                  "absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full"
-                )}
-              />
+
+        <DialogContent className="flex  rounded-[30px] min-h-[580px] w-fit">
+          {/* Pizza image block */}
+          <div className="flex  mx-[20px] my-[66px] justify-center items-center w-fit h-full">
+            <div className="relative w-[450px] h-[450px] rounded-full border-2 border-dashed border-[rgba(222,222,222,1)] flex items-center justify-center">
+              <div className="relative w-[375px] h-[375px] rounded-full border-2 border-dashed border-[rgba(222,222,222,1)] flex items-center justify-center">
+                <Image
+                  src={src || "/680565d2826df6b5beafcaedf1ed3943-removebg-preview.png"}
+                  alt="image-pitza"
+                  priority
+                  width={1000}
+                  height={1000}
+                  className={cn(
+                    "absolute min-w-[300px]  duration-500 transition-all min-h-[300px] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full",
+                    sizeMode === "medium" && "min-w-[458px] min-h-[452px] aspect-square",
+                    sizeMode === "big" && "min-w-[550px] min-h-[540px] "
+                  )}
+                />
+              </div>
             </div>
           </div>
-        </div>
-
 
           <div className="bg-[rgba(244,241,238,1)] flex flex-col gap-[10px] w-[500px] rounded-r-[30px] min-h-[100%] px-[40px]">
             <span className={`text-[24px] font-[700] ${nunito700.className}`}>Паперони фреш</span>
@@ -105,42 +97,10 @@ export const PizzaPriceBlock: React.FC<IPizzaPriceBlockProps> = ({
             </span>
 
             <div className="flex flex-col gap-[10px]">
-              <Tabs defaultValue="small" className="w-full">
-                <TabsList className="w-full h-[39px] p-0 bg-[rgba(236,236,236,1)] rounded-[30px] flex justify-center gap-2">
-                  {mockSizeTabs.map(({ label, value }) => (
-                    <TabsTrigger
-                      key={value}
-                      className="px-4 h-[30px] rounded-[30px] text-sm font-medium data-[state=active]:bg-white"
-                      value={value}
-                      onClick={() => {setSizeMode(value as SizeMode) 
-                        setTimeout(() => console.log(sizeMode),2000);
-                      }}
-                    >
-                      {label}
-                    </TabsTrigger>
-                  ))}
-                </TabsList>
-              </Tabs>
-
-              <Tabs
-                defaultValue="traditional"
-                className="bg-[rgba(236,236,236,1)] flex items-center w-full h-[39px] rounded-[30px]"
-              >
-                <TabsList className="w-full flex justify-center gap-2">
-                  {mockDoughTabs.map(({ label, value }) => (
-                    <TabsTrigger
-                      key={value}
-                      onClick={() => setDoughType(value as DoughType)}
-                      className="rounded-[30px] h-[30px] px-4 text-sm font-medium data-[state=active]:bg-white"
-                      value={value}
-                    >
-                      {label}
-                    </TabsTrigger>
-                  ))}
-                </TabsList>
-              </Tabs>
+              <TabList  setState={setSizeMode} mock={mockSizeTabs} />
+              <TabList  setState={setDoughType} mock={mockDoughTabs} />
             </div>
-
+            
             <div className="flex flex-col">
               <span className={`${nunito600.className} font-[600]`}>Додати по смаку</span>
 
@@ -151,16 +111,14 @@ export const PizzaPriceBlock: React.FC<IPizzaPriceBlockProps> = ({
                     onClick={() => handleToppingClick(index, Number(item.price))}
                     className={cn(
                       "relative rounded-[15px] flex max-w-[130px] flex-col px-[10px] pt-[12px] pb-[10px] w-full bg-white cursor-pointer",
-                      isBorderExistsOnIndex.includes(index) &&
-                        "border-2 border-[rgba(254,95,0,1)]"
+                      isBorderExistsOnIndex.includes(index) && "border-2 border-[rgba(254,95,0,1)]"
                     )}
                   >
                     {isBorderExistsOnIndex.includes(index) && (
-                      <Check 
-                        className="rounded-full border-2 border-[rgba(254,95,0,1)] aspect-square flex items-center justify-center absolute top-1 right-1 w-[18px] h-[18px] text-[rgba(254,95,0,1)]" />
+                      <CircleCheck className="rounded-full  border-[rgba(254,95,0,1)]  absolute top-1 right-1 w-[28px] h-[28px] text-[rgba(254,95,0,1)]" />
                     )}
 
-                    <Image 
+                    <Image
                       src={item.icon}
                       width={110}
                       height={110}
@@ -171,14 +129,17 @@ export const PizzaPriceBlock: React.FC<IPizzaPriceBlockProps> = ({
                   </div>
                 ))}
               </div>
-
               <Button className="bg-[rgba(254,95,0,1)] mx-auto py-[15px] w-full max-w-[418px] h-[50px] rounded-[18px] my-[34px] text-white text-[16px]">
                 Додай корзину {priceProduct}
               </Button>
             </div>
+
           </div>
         </DialogContent>
       </Dialog>
     </div>
   );
 };
+
+
+
