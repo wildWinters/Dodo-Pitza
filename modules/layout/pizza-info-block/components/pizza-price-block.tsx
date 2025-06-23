@@ -35,6 +35,14 @@ export const PizzaPriceBlock: React.FC<IPizzaPriceBlockProps> = ({
     new Array(mockAdditions.length).fill(false)
   );
 
+  const sizePitza = {
+    "small": "20cm",
+    "medium": "30cm",
+    "big": "40cm",
+    undefined:null 
+   }
+
+
   const priceProduct = useMemo(() => {
     const selectedAdditionsSum = isBorderExistsOnIndex.reduce(
       (sum, idx) => sum + Number(mockAdditions[idx].price),
@@ -93,7 +101,7 @@ export const PizzaPriceBlock: React.FC<IPizzaPriceBlockProps> = ({
           <div className="bg-[rgba(244,241,238,1)] flex flex-col gap-[10px] w-[500px] rounded-r-[30px] min-h-[100%] px-[40px]">
             <span className={`text-[24px] font-[700] ${nunito700.className}`}>Паперони фреш</span>
             <span className={`${nunito400.className} font-[400] text-[rgba(119,119,119,1)]`}>
-              25 см, традиционное тесто 25, 380 г
+              {sizeMode ? sizePitza[sizeMode] : ''} {doughType} pizza
             </span>
 
             <div className="flex flex-col gap-[10px]">
