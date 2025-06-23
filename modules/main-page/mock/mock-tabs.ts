@@ -1,5 +1,3 @@
-// types.ts
-
 export type ModeTabs = 
   | "All"
   | "Meat"

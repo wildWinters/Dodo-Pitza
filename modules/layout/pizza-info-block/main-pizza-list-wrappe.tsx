@@ -1,4 +1,4 @@
-
+"use client"
 import { nunito400, nunito600, nunito700 } from "@/font/fonts";
 import { cn } from "@/lib/utils";
 import { mockPizzas } from "@/modules/main-page/mock/mock-data-pitza";
@@ -8,9 +8,8 @@ import { PizzaDescription } from "./components/pizza-description";
 import { PizzaImageBlock } from "./components/pizza-image-block";
 import { PizzaPriceBlock } from "./components/pizza-price-block";
 import { PizzaWrapper } from "./components/pizza-wrapper";
-
-
-
+import { priceProduct } from "@/modules/main-page/types";
+import { useState } from "react";
 
 export type TypeMainPizzaListWrapper = { 
   children?: ReactNode;
@@ -24,6 +23,8 @@ export const MainPizzaListWrapper: React.FC<TypeMainPizzaListWrapper> = ({
   mockRenderPitza,
   ...props
 }) => {
+
+
   return (
     <>
       {mockRenderPitza.map((pizza, index) => (
