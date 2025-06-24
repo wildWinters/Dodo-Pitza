@@ -23,4 +23,4 @@ export const DirectionWrapper: React.FC<IDirectionWrapper> = ({
       {children}
     </div>
   );
-};
+}; 

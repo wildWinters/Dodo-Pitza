@@ -19,6 +19,7 @@ import {
 } from "@/modules/main-page/types/index";
 import { CircleCheck } from "lucide-react";
 import { TabList } from '@/components/ui/full-tab-list';
+import { useBasketStore } from '@/store/use-basket-store';
 
 export const PizzaPriceBlock: React.FC<IPizzaPriceBlockProps> = ({
   className,
@@ -30,6 +31,11 @@ export const PizzaPriceBlock: React.FC<IPizzaPriceBlockProps> = ({
   const [doughType, setDoughType] = useState<DoughType>();
   const [selectedAdditions, setSelectedAdditions] = useState<Set<number>>(new Set());
   const [chosenTopics, setChosenTopics] = useState<Set<string>>(new Set());
+  
+  const setChosenCountProducts = useBasketStore(state => state.setChosenCountProducts );
+  const setChosenPriceProducts = useBasketStore(state => state.setChosenPriceProducts );
+
+
 
   const sizePitza = {
     small: "20cm",
@@ -97,7 +103,6 @@ export const PizzaPriceBlock: React.FC<IPizzaPriceBlockProps> = ({
         </DialogTrigger>
 
         <DialogContent className="flex rounded-[30px] min-h-[580px] w-fit">
-          {/* Pizza image block */}
           <div className="flex mx-[20px] my-[66px] justify-center items-center w-fit h-full">
             <div className="relative w-[450px] h-[450px] rounded-full border-2 border-dashed border-[rgba(222,222,222,1)] flex items-center justify-center">
               <div className="relative w-[375px] h-[375px] rounded-full border-2 border-dashed border-[rgba(222,222,222,1)] flex items-center justify-center">
@@ -136,7 +141,13 @@ export const PizzaPriceBlock: React.FC<IPizzaPriceBlockProps> = ({
                 {mockAdditions.map(renderAdditionItem)}
               </div>
 
-              <Button className="bg-[rgba(254,95,0,1)] mx-auto py-[15px] w-full max-w-[418px] h-[50px] rounded-[18px] my-[34px] text-white text-[16px]">
+              <Button 
+              onClick={ () => {
+                  setChosenPriceProducts(priceProduct);
+                  setChosenCountProducts();
+                }
+              }
+              className="bg-[rgba(254,95,0,1)] mx-auto py-[15px] w-full max-w-[418px] h-[50px] rounded-[18px] my-[34px] text-white text-[16px]">
                 Додай корзину {priceProduct}
               </Button>
             </div>

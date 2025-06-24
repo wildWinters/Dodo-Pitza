@@ -1,3 +1,4 @@
+"use client"
 import { DirectionWrapper } from "../../wrapper/direction-wrapper";
 import { mockMenuItems } from "@/modules/main-page/mock/mock-menu";
 import { Button } from "@/ui/button";
@@ -12,8 +13,21 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Fragment } from "react";
+import { useBasketStore } from "@/store/use-basket-store";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet"
+
 
 export const RegistrationPanel: React.FC = () => {
+  const count = useBasketStore(state => state.count);
+  const screenPrice = useBasketStore(state => state.price);
+
   return (
     <DirectionWrapper direction="row">
       <DropdownMenu>
@@ -36,10 +50,24 @@ export const RegistrationPanel: React.FC = () => {
           ))}
         </DropdownMenuContent>
       </DropdownMenu>
-
-      <Button className="h-[50px] w-[50px] rounded-[15px] border-[1px]">
-        <ShoppingCart size={16} />
-      </Button>
+      
+      <Sheet>
+        <SheetTrigger>
+          <Button className="bg-[rgba(254,95,0,1)]  h-[50px] w-fit text-white  rounded-[15px] border-[1px]">
+          <span>{screenPrice}$</span>
+          <span>|</span>
+          <ShoppingCart size={16} className="text-white" />
+          <span className="text-[14px]">{count}</span>
+        </Button>
+      </SheetTrigger>
+      <SheetContent>
+        <SheetHeader>
+          <SheetTitle>Are you absolutely sure?</SheetTitle>
+          <SheetDescription>
+          </SheetDescription>
+        </SheetHeader>
+      </SheetContent>
+    </Sheet>
     </DirectionWrapper>
   );
 };

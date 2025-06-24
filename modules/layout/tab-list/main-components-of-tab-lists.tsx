@@ -5,6 +5,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/ui/tabs";
 import { ArrowUpDown, ChevronDown } from "lucide-react";
 import { Link } from "react-scroll";
 import { TabLister } from "./main-tab-list";
+import { useBasketStore } from "@/store/use-basket-store";
 
 type TMainComponentsOfTabList = {
   className?: string;
@@ -14,6 +15,13 @@ export const MainComponentsOfTabList: React.FC<TMainComponentsOfTabList> = ({
   className,
   ...props
 }) => {
+  const pizza = useBasketStore(state => state.pizza)
+  const sortMode  = useBasketStore(state => state.sortMode);
+  const setSortModeKey = useBasketStore(state => state.setSortModeKey);
+
+  console.log(pizza);
+
+
   return (
     <div
       className={cn(
@@ -54,13 +62,16 @@ export const MainComponentsOfTabList: React.FC<TMainComponentsOfTabList> = ({
             </TabsList>
           </Tabs>
 
-          <div className="flex items-center gap-[10px] py-[16px] bg-[rgba(250,250,250,1)] rounded-[15px]">
+          <div 
+            onClick={setSortModeKey}
+            className="flex items-center gap-[10px] py-[16px] bg-[rgba(250,250,250,1)] rounded-[15px]"
+          >
             <ArrowUpDown className="text-black" size={16} />
             <span className={`text-[16px] ${nunito400.className}`}>
-              Сортування
+              Sorting by
             </span>
             <span className="text-[rgba(254,95,0,1)] text-[16px]">
-              рейтингу
+              {sortMode}
             </span>
           </div>
         </div>
