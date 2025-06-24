@@ -78,6 +78,7 @@ export const RegistrationPanel: React.FC = () => {
 
 import { FC, HTMLAttributes } from "react";
 import { cn } from "@/lib/utils";
+import { IBasedProps } from "../../footer/main-footer-wrapper";
 
 interface VoidBasketProps extends HTMLAttributes<HTMLDivElement> {
   className?: string;
@@ -112,12 +113,30 @@ export const VoidBasket: FC<VoidBasketProps> = ({ className, ...props }) => {
     </div>
   );
 };
+interface IFilledBasket extends IBasedProps {
+  mock:any[];
+  price: number;
+  tax:number;
+}
 
-export const FilledBasket:FC<{className:string,children: ReactNode}> = ({className, children, ...props}) => {
+export const FilledBasket:FC<IFilledBasket> = ({ className, ...props}) => {
 
   return  ( 
-    <div>
+    <div className="flex flex-col justify-between" {...props}>
+      <div className="flex flex-col gap-[10px]"> 
+            <div className="bg-white py-[20px] pl-[20px] pr-[26px]"> 
+                <Image
+                  src="/11ee7d6108e3a1c9952cd3a7f39a4d02.avif"
+                  width={65}
+                  height={65}
+                  alt="pizza-image"
+                />
+      </div>
+      </div>
 
+      <div className="min-h-[207px] flex flex-col items-center justify-center">
+        
+      </div>
     </div>
   )
  }

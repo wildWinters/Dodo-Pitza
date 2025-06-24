@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import Image from "next/image";
-import { nunito400, nunito600, nunito700 } from "@/font/fonts";
+import {  nunito600, nunito700 } from "@/font/fonts";
 import { cn } from "@/lib/utils";
 import { Button } from "@/ui/button";
 import {
@@ -104,7 +104,6 @@ export const PizzaPriceBlock: React.FC<IPizzaPriceBlockProps> = ({
         <DialogTrigger className="px-3 py-1 text-sm rounded-[8px] border-none text-[rgba(254,95,0,1)] bg-[rgba(255,250,244,1)]">
           {buttonMode}
         </DialogTrigger>
-
         <DialogContent className="flex rounded-[30px] min-h-[580px] w-fit">
           <div className="flex mx-[20px] my-[66px] justify-center items-center w-fit h-full">
             <div className="relative w-[450px] h-[450px] rounded-full border-2 border-dashed border-[rgba(222,222,222,1)] flex items-center justify-center">
