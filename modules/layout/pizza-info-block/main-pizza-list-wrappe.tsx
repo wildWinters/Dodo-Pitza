@@ -8,8 +8,6 @@ import { PizzaDescription } from "./components/pizza-description";
 import { PizzaImageBlock } from "./components/pizza-image-block";
 import { PizzaPriceBlock } from "./components/pizza-price-block";
 import { PizzaWrapper } from "./components/pizza-wrapper";
-import { priceProduct } from "@/modules/main-page/types";
-import { useState } from "react";
 
 export type TypeMainPizzaListWrapper = { 
   children?: ReactNode;
@@ -23,8 +21,6 @@ export const MainPizzaListWrapper: React.FC<TypeMainPizzaListWrapper> = ({
   mockRenderPitza,
   ...props
 }) => {
-
-
   return (
     <>
       {mockRenderPitza.map((pizza, index) => (
@@ -49,7 +45,7 @@ export const MainPizzaListWrapper: React.FC<TypeMainPizzaListWrapper> = ({
               {pizza.description}
             </span>
           </PizzaDescription>
-          <PizzaPriceBlock price={pizza.price} mode="button" buttonMode="Додати" />
+          <PizzaPriceBlock src={pizza.image}  price={pizza.price} mode="button" buttonMode="Додати" />
         </PizzaWrapper>
       ))}
       {children}

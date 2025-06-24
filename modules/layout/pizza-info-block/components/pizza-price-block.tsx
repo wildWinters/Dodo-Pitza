@@ -31,11 +31,9 @@ export const PizzaPriceBlock: React.FC<IPizzaPriceBlockProps> = ({
   const [doughType, setDoughType] = useState<DoughType>();
   const [selectedAdditions, setSelectedAdditions] = useState<Set<number>>(new Set());
   const [chosenTopics, setChosenTopics] = useState<Set<string>>(new Set());
-  
+
   const setChosenCountProducts = useBasketStore(state => state.setChosenCountProducts );
   const setChosenPriceProducts = useBasketStore(state => state.setChosenPriceProducts );
-
-
 
   const sizePitza = {
     small: "20cm",
@@ -81,7 +79,12 @@ export const PizzaPriceBlock: React.FC<IPizzaPriceBlockProps> = ({
           <CircleCheck className="rounded-full border-[rgba(254,95,0,1)] absolute top-1 right-1 w-[28px] h-[28px] text-[rgba(254,95,0,1)]" />
         )}
 
-        <Image src={item.icon} width={110} height={110} alt={item.name} />
+        <Image 
+          src={item.icon}
+          width={110}
+          height={110}
+          alt={item.name}
+        />
         <span className="text-[12px] text-center">{item.name}</span>
         <span className="text-center">{item.price}</span>
       </div>

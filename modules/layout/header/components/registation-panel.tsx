@@ -12,7 +12,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Fragment } from "react";
+import { Fragment, ReactNode } from "react";
 import { useBasketStore } from "@/store/use-basket-store";
 import {
   Sheet,
@@ -22,7 +22,8 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
-
+import Image from "next/image";
+import { ArrowLeft } from "lucide-react";
 
 export const RegistrationPanel: React.FC = () => {
   const count = useBasketStore(state => state.count);
@@ -62,12 +63,61 @@ export const RegistrationPanel: React.FC = () => {
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
-          <SheetTitle>Are you absolutely sure?</SheetTitle>
+          <SheetTitle className={count > 0 ? "" : "hidden"}>
+            в коризині {count} товарів
+          </SheetTitle>
           <SheetDescription>
           </SheetDescription>
         </SheetHeader>
+        <VoidBasket className={count  === 0 ? "" : "hidden" }/>
       </SheetContent>
     </Sheet>
     </DirectionWrapper>
   );
 };
+
+import { FC, HTMLAttributes } from "react";
+import { cn } from "@/lib/utils";
+
+interface VoidBasketProps extends HTMLAttributes<HTMLDivElement> {
+  className?: string;
+}
+
+export const VoidBasket: FC<VoidBasketProps> = ({ className, ...props }) => {
+  return (
+    <div
+      className={cn(
+        "h-full w-full flex flex-col items-center justify-center gap-5",
+        className
+      )}
+      {...props}
+    >
+      <Image
+        src="/174b53d6e0efb90ef8ce4fb82d0f992b7486e782.png"
+        alt="basket-store"
+        width={120}
+        height={120}
+      />
+
+      <h2 className="text-xl font-semibold">Корзина пуста</h2>
+
+      <p className="max-w-[285px] text-center text-gray-400">
+        Добавьте хотя бы одну пиццу, чтобы совершить заказ
+      </p>
+
+      <Button className="bg-[rgba(254,95,0,1)] py-4 w-full max-w-[230px] h-[55px] rounded-[18px] mt-8 text-white text-base">
+        <ArrowLeft className="w-[13px] h-[12px] mr-2" />
+        Вернутися назад
+      </Button>
+    </div>
+  );
+};
+
+export const FilledBasket:FC<{className:string,children: ReactNode}> = ({className, children, ...props}) => {
+
+  return  ( 
+    <div>
+
+    </div>
+  )
+ }

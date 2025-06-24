@@ -10,51 +10,69 @@ export interface IUseBasketStore {
   setChosenCountProducts: () => void;
   sortingPizza: () => void;
   setSortMode: (mode: "price" | "order" | "rating") => void;
-  setSortModeKey:() => void;
+  setSortModeKey: () => void;
 }
-
 
 export const useBasketStore = create<IUseBasketStore>()(
   devtools(
-    (set, get) => ({
-      sortMode: "price",
-      price: 0,
-      count: 0,
-      pizza: mockPizzas,
-      
-      setChosenPriceProducts: (price: number) => {
-        set((state) => ({ price: state.price + price }));
-      },
+    (set, get) => {
 
-      setChosenCountProducts: () => {
-        set((state) => ({ count: state.count + 1 }));
-      },
+      const modes: ("price" | "order" | "rating")[] = ["price", "order", "rating"];
 
-      setSortMode: (mode) => {
-        set({ sortMode: mode });
-        get().sortingPizza();  // одразу сортуємо після зміни режиму
-      },
+      const sortPizzas = (pizzaList: typeof mockPizzas, mode: "price" | "order" | "rating") => {
+        return [...pizzaList].sort((a, b) => b[mode] - a[mode]);
+      };
 
-      sortingPizza: () => {
-        const { sortMode, pizza } = get();
-        const sorted = [...pizza].sort((a, b) => b[sortMode] - a[sortMode]);
-        set({ pizza: sorted });
-        setTimeout(() => {
-          console.log(get().pizza);
+      const updateSortMode = (newMode: "price" | "order" | "rating") => {
+        set((state) => {
+          const sortedPizza = sortPizzas(state.pizza, newMode);
+          return {
+            sortMode: newMode,
+            pizza: sortedPizza,
+          };
         });
-      },
+      };
 
-      setSortModeKey: () => {
-        const modes: ("price" | "order" | "rating")[] = ["price", "order", "rating"];
-        const currentMode = get().sortMode;
-        const currentIndex = modes.indexOf(currentMode);
-        const nextIndex = (currentIndex + 1) % modes.length;
-        const nextMode = modes[nextIndex];
+      return {
+        sortMode: "price",
+        price: 0,
+        count: 0,
+        pizza: mockPizzas,
 
-        set({ sortMode: nextMode });
-        get().sortingPizza(); // сортуємо після зміни режиму
-      },
-    }),
+        setChosenPriceProducts: (price: number) => {
+          set((state) => ({ price: state.price + price }));
+        },
+
+        setChosenCountProducts: () => {
+          set((state) => ({ count: state.count + 1 }));
+        },
+
+
+        setSortMode: (mode) => {
+          updateSortMode(mode);
+        },
+
+        setSortModeKey: () => {
+          const currentMode = get().sortMode;
+          const currentIndex = modes.indexOf(currentMode);
+          const nextIndex = (currentIndex + 1) % modes.length;
+          const nextMode = modes[nextIndex];
+
+          updateSortMode(nextMode);
+        },
+
+
+        sortingPizza: () => {
+          const { sortMode, pizza } = get();
+          const sorted = sortPizzas(pizza, sortMode);
+          set({ pizza: sorted });
+
+          setTimeout(() => {
+            console.log(get().pizza);
+          });
+        },
+      };
+    },
     { name: "🧺 Basket Store" }
   )
 );
