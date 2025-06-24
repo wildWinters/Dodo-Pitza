@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import Image from "next/image";
-import { nunito400, nunito600, nunito700 } from "@/font/fonts";
+import {  nunito600, nunito700 } from "@/font/fonts";
 import { cn } from "@/lib/utils";
 import { Button } from "@/ui/button";
 import {
@@ -31,11 +31,9 @@ export const PizzaPriceBlock: React.FC<IPizzaPriceBlockProps> = ({
   const [doughType, setDoughType] = useState<DoughType>();
   const [selectedAdditions, setSelectedAdditions] = useState<Set<number>>(new Set());
   const [chosenTopics, setChosenTopics] = useState<Set<string>>(new Set());
-  
+
   const setChosenCountProducts = useBasketStore(state => state.setChosenCountProducts );
   const setChosenPriceProducts = useBasketStore(state => state.setChosenPriceProducts );
-
-
 
   const sizePitza = {
     small: "20cm",
@@ -81,7 +79,12 @@ export const PizzaPriceBlock: React.FC<IPizzaPriceBlockProps> = ({
           <CircleCheck className="rounded-full border-[rgba(254,95,0,1)] absolute top-1 right-1 w-[28px] h-[28px] text-[rgba(254,95,0,1)]" />
         )}
 
-        <Image src={item.icon} width={110} height={110} alt={item.name} />
+        <Image 
+          src={item.icon}
+          width={110}
+          height={110}
+          alt={item.name}
+        />
         <span className="text-[12px] text-center">{item.name}</span>
         <span className="text-center">{item.price}</span>
       </div>
@@ -101,7 +104,6 @@ export const PizzaPriceBlock: React.FC<IPizzaPriceBlockProps> = ({
         <DialogTrigger className="px-3 py-1 text-sm rounded-[8px] border-none text-[rgba(254,95,0,1)] bg-[rgba(255,250,244,1)]">
           {buttonMode}
         </DialogTrigger>
-
         <DialogContent className="flex rounded-[30px] min-h-[580px] w-fit">
           <div className="flex mx-[20px] my-[66px] justify-center items-center w-fit h-full">
             <div className="relative w-[450px] h-[450px] rounded-full border-2 border-dashed border-[rgba(222,222,222,1)] flex items-center justify-center">

@@ -18,9 +18,7 @@ export const MainComponentsOfTabList: React.FC<TMainComponentsOfTabList> = ({
   const pizza = useBasketStore(state => state.pizza)
   const sortMode  = useBasketStore(state => state.sortMode);
   const setSortModeKey = useBasketStore(state => state.setSortModeKey);
-
   console.log(pizza);
-
 
   return (
     <div

@@ -15,7 +15,7 @@ export const useIngredients = () => {
         setLoading(false);
       } catch (err) {
         setError('Failed to fetch ingredients');
-        setTimeout(() => setLoading(false), 4000)
+        setTimeout(() => setLoading(false), 100)
         console.error('Error fetching ingredients:', err);
       }
     };

@@ -3,7 +3,8 @@ import { mockIngredients } from "../mock/mock-filtered-tabs";
 import { ModeTabs } from "../mock/mock-tabs";
 
 interface MainPageStore {
-  scrollId:ModeTabs | null,
+
+  scrollId: ModeTabs | null,
   defaultCount: number;
   currentPageIndex: number;
   selectedPageIndex: number | null;
@@ -65,4 +66,5 @@ export const useMainPageStore = create<MainPageStore>((set, get) => ({
       defaultCount: newDefaultCount,
     });
   },
+
 }));
