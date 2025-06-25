@@ -1,6 +1,11 @@
+"use client";
+
+import toast, { Toaster } from 'react-hot-toast';
+import { CheckCircle, XCircle, CircleCheck } from "lucide-react";
+
 import { useState, useMemo } from 'react';
 import Image from "next/image";
-import {  nunito600, nunito700 } from "@/font/fonts";
+import { nunito600, nunito700 } from "@/font/fonts";
 import { cn } from "@/lib/utils";
 import { Button } from "@/ui/button";
 import {
@@ -17,9 +22,34 @@ import {
   DoughType,
   IAdditionItem,
 } from "@/modules/main-page/types/index";
-import { CircleCheck } from "lucide-react";
 import { TabList } from '@/components/ui/full-tab-list';
 import { useBasketStore } from '@/store/use-basket-store';
+
+
+const success = () =>
+  toast.custom((t) => (
+    <div
+      className={`${
+        t.visible ? "animate-enter" : "animate-leave"
+      } flex items-center gap-3 p-4 bg-green-100 border border-green-300 rounded-lg shadow-md text-green-800`}
+    >
+      <CheckCircle className="w-5 h-5 text-green-600" />
+      <p className="font-medium">Purchase completed successfully!</p>
+    </div>
+  ));
+
+// ❌ toast: error
+const error = () =>
+  toast.custom((t) => (
+    <div
+      className={`${
+        t.visible ? "animate-enter" : "animate-leave"
+      } flex items-center gap-3 p-4 bg-red-100 border border-red-300 rounded-lg shadow-md text-red-800`}
+    >
+      <XCircle className="w-5 h-5 text-red-600" />
+      <p className="font-medium">Please select size and dough type.</p>
+    </div>
+  ));
 
 export const PizzaPriceBlock: React.FC<IPizzaPriceBlockProps> = ({
   className,
@@ -32,8 +62,8 @@ export const PizzaPriceBlock: React.FC<IPizzaPriceBlockProps> = ({
   const [selectedAdditions, setSelectedAdditions] = useState<Set<number>>(new Set());
   const [chosenTopics, setChosenTopics] = useState<Set<string>>(new Set());
 
-  const setChosenCountProducts = useBasketStore(state => state.setChosenCountProducts );
-  const setChosenPriceProducts = useBasketStore(state => state.setChosenPriceProducts );
+  const setChosenCountProducts = useBasketStore(state => state.setChosenCountProducts);
+  const setChosenPriceProducts = useBasketStore(state => state.setChosenPriceProducts);
 
   const sizePitza = {
     small: "20cm",
@@ -76,15 +106,9 @@ export const PizzaPriceBlock: React.FC<IPizzaPriceBlockProps> = ({
         )}
       >
         {isSelected && (
-          <CircleCheck className="rounded-full border-[rgba(254,95,0,1)] absolute top-1 right-1 w-[28px] h-[28px] text-[rgba(254,95,0,1)]" />
+          <CircleCheck className="rounded-full absolute top-1 right-1 w-[28px] h-[28px] text-[rgba(254,95,0,1)]" />
         )}
-
-        <Image 
-          src={item.icon}
-          width={110}
-          height={110}
-          alt={item.name}
-        />
+        <Image src={item.icon} width={110} height={110} alt={item.name} />
         <span className="text-[12px] text-center">{item.name}</span>
         <span className="text-center">{item.price}</span>
       </div>
@@ -115,7 +139,7 @@ export const PizzaPriceBlock: React.FC<IPizzaPriceBlockProps> = ({
                   width={1000}
                   height={1000}
                   className={cn(
-                    "absolute min-w-[300px] duration-500 transition-all min-h-[300px] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full",
+                    "absolute rouded-[50%] min-w-[300px] duration-500 transition-all min-h-[300px] top-1/2 left-[55%] transform -translate-x-1/2 -translate-y-1/2",
                     sizeMode === "medium" && "min-w-[458px] min-h-[452px] aspect-square",
                     sizeMode === "big" && "min-w-[550px] min-h-[540px]"
                   )}
@@ -143,15 +167,22 @@ export const PizzaPriceBlock: React.FC<IPizzaPriceBlockProps> = ({
                 {mockAdditions.map(renderAdditionItem)}
               </div>
 
-              <Button 
-              onClick={ () => {
+              <Button
+                onClick={() => {
+                  if (!sizeMode || !doughType) {
+                    error(); // ❌ показати помилку
+                    return;
+                  }
                   setChosenPriceProducts(priceProduct);
                   setChosenCountProducts();
-                }
-              }
-              className="bg-[rgba(254,95,0,1)] mx-auto py-[15px] w-full max-w-[418px] h-[50px] rounded-[18px] my-[34px] text-white text-[16px]">
+                  success(); // ✅ показати успішний toast
+                }}
+                className="bg-[rgba(254,95,0,1)] mx-auto py-[15px] w-full max-w-[418px] h-[50px] rounded-[18px] my-[34px] text-white text-[16px]"
+              >
                 Додай корзину {priceProduct}
               </Button>
+
+              <Toaster />
             </div>
           </div>
         </DialogContent>
