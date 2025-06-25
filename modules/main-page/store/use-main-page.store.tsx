@@ -3,7 +3,6 @@ import { mockIngredients } from "../mock/mock-filtered-tabs";
 import { ModeTabs } from "../mock/mock-tabs";
 
 interface MainPageStore {
-
   scrollId: ModeTabs | null,
   defaultCount: number;
   currentPageIndex: number;
@@ -11,7 +10,7 @@ interface MainPageStore {
   maxPageCount: number;
   isShowAllGradient: boolean;
   searchElement: string;
-  setScrollId: (id:ModeTabs | null) => void;
+  setScrollId: (id: ModeTabs | null) => void;
   setEnteredValueSearchedElement: (value: string) => void;
   setSelectedPageIndex: (index: number) => void;
   incrementSelectedPageIndex: () => void;

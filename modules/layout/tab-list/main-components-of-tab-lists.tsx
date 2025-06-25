@@ -18,6 +18,7 @@ export const MainComponentsOfTabList: React.FC<TMainComponentsOfTabList> = ({
   const pizza = useBasketStore(state => state.pizza)
   const sortMode  = useBasketStore(state => state.sortMode);
   const setSortModeKey = useBasketStore(state => state.setSortModeKey);
+  const setIsClickedOnSortButton = useBasketStore(state => state.setIsClickedOnSortButton);
   console.log(pizza);
 
   return (
@@ -61,7 +62,10 @@ export const MainComponentsOfTabList: React.FC<TMainComponentsOfTabList> = ({
           </Tabs>
 
           <div 
-            onClick={setSortModeKey}
+            onClick={ () => {
+              setSortModeKey()
+              setIsClickedOnSortButton();
+            }}
             className="flex items-center gap-[10px] py-[16px] bg-[rgba(250,250,250,1)] rounded-[15px]"
           >
             <ArrowUpDown className="text-black" size={16} />
