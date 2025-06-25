@@ -36,7 +36,10 @@ export const MainPizzaListWrapper: React.FC<TypeMainPizzaListWrapper> = ({
               {pizza.blockMenuDescriptionFOrTAbs}
             </span>
           </Element>
-          <PizzaImageBlock src={pizza.image} alt={pizza.title} />
+          <PizzaImageBlock
+            src={pizza.image}
+            alt={pizza.title}
+          />
           <PizzaDescription>
             <span className={`${nunito700.className} text-black text-left`}>
               {pizza.title}
@@ -45,7 +48,12 @@ export const MainPizzaListWrapper: React.FC<TypeMainPizzaListWrapper> = ({
               {pizza.description}
             </span>
           </PizzaDescription>
-          <PizzaPriceBlock src={pizza.image}  price={pizza.price} mode="button" buttonMode="Додати" />
+          <PizzaPriceBlock
+           src={pizza.image}
+           price={pizza.price}
+           mode="button"
+           buttonMode="Додати"
+          />
         </PizzaWrapper>
       ))}
       {children}
