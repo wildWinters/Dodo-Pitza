@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
 import Link from "next/link";
 import Image from "next/image";
+
 interface IBasedProps {
   ingredients: IIngredient[];
   className?: string;
@@ -51,7 +52,7 @@ export const SearchElement: FC<ISearchElement> = ({
         <div key={ingredient.id}>
         <div
           className={cn(
-            "flex w-full hover:bg-[rgb(243,146,146)] bg-white gap-[20px] items-center px-4 py-2",
+            "flex w-full hover:bg-[rgba(255,250,246,1)] bg-white gap-[20px] items-center px-4 py-2",
             index === 0 && "rounded-t-2xl",
             index === ingredients.length - 1 && "rounded-b-2xl"
           )}

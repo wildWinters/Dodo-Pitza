@@ -21,10 +21,12 @@ export type DoughType = "thin" | "traditional" | null;
 
 export interface IPizzaPriceBlockProps {
     className?: string;
-    price: string | number;
+    price: number;
     mode: Mode;
     buttonMode: ButtonDescription;
-    src?: string;
+    src: string;
+    name: string;
+    description:string;
 }
 
 export interface IAdditionItem {

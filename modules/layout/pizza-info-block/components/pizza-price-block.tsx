@@ -2,7 +2,6 @@
 
 import toast, { Toaster } from 'react-hot-toast';
 import { CheckCircle, XCircle, CircleCheck } from "lucide-react";
-
 import { useState, useMemo } from 'react';
 import Image from "next/image";
 import { nunito600, nunito700 } from "@/font/fonts";
@@ -24,7 +23,7 @@ import {
 } from "@/modules/main-page/types/index";
 import { TabList } from '@/components/ui/full-tab-list';
 import { useBasketStore } from '@/store/use-basket-store';
-
+import { PizzazPurchaseBlock } from '../../header/components/registation-panel';
 
 const success = () =>
   toast.custom((t) => (
@@ -38,7 +37,7 @@ const success = () =>
     </div>
   ));
 
-// ❌ toast: error
+
 const error = () =>
   toast.custom((t) => (
     <div
@@ -56,12 +55,14 @@ export const PizzaPriceBlock: React.FC<IPizzaPriceBlockProps> = ({
   price,
   buttonMode,
   src,
+  name,
+  description="",
 }) => {
   const [sizeMode, setSizeMode] = useState<SizeMode>();
   const [doughType, setDoughType] = useState<DoughType>();
   const [selectedAdditions, setSelectedAdditions] = useState<Set<number>>(new Set());
   const [chosenTopics, setChosenTopics] = useState<Set<string>>(new Set());
-
+  const addElementToBasketItem = useBasketStore(state => state.addElementToBasketItem);
   const setChosenCountProducts = useBasketStore(state => state.setChosenCountProducts);
   const setChosenPriceProducts = useBasketStore(state => state.setChosenPriceProducts);
 
@@ -149,7 +150,7 @@ export const PizzaPriceBlock: React.FC<IPizzaPriceBlockProps> = ({
           </div>
 
           <div className="bg-[rgba(244,241,238,1)] flex flex-col gap-[10px] w-[500px] rounded-r-[30px] min-h-[100%] px-[40px]">
-            <span className={`text-[24px] font-[700] ${nunito700.className}`}>Паперони фреш</span>
+            <span className={`text-[24px] font-[700] ${nunito700.className}`}>{name}</span>
             <span className="text-base text-gray-600 font-normal">
               {sizeMode ? sizePitza[sizeMode] : ''} {doughType} піца
               {chosenTopics.size > 0 && ` з: ${Array.from(chosenTopics).join(", ")}`}
@@ -170,12 +171,19 @@ export const PizzaPriceBlock: React.FC<IPizzaPriceBlockProps> = ({
               <Button
                 onClick={() => {
                   if (!sizeMode || !doughType) {
-                    error(); // ❌ показати помилку
+                    error();
                     return;
                   }
                   setChosenPriceProducts(priceProduct);
                   setChosenCountProducts();
-                  success(); // ✅ показати успішний toast
+                  success();
+                  addElementToBasketItem({ 
+                    src: src,
+                    title: name,
+                    description: `${sizeMode ? sizePitza[sizeMode] : ''} ${doughType ? doughType : ''} піца${chosenTopics.size > 0 ? ` з: ${Array.from(chosenTopics).join(", ")}` : ''}`,
+                    price: priceProduct,
+                    counts:0
+                  });
                 }}
                 className="bg-[rgba(254,95,0,1)] mx-auto py-[15px] w-full max-w-[418px] h-[50px] rounded-[18px] my-[34px] text-white text-[16px]"
               >
