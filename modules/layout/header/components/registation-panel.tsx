@@ -12,7 +12,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Fragment, useState} from "react";
+import { Fragment,} from "react";
 import {
   Sheet,
   SheetContent,
@@ -21,11 +21,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
-import Image from "next/image";
-import { ArrowLeft } from "lucide-react";
-import { nunito700 } from "@/font/fonts";
 import { useBasketStore } from "@/store/use-basket-store";
-import { PizzazPurchaseBlock } from "./pizza-purchase-block";
 import { FilledBasket } from "./filled-basket";
 import { VoidBasket } from "./void-basket";
 
@@ -33,8 +29,6 @@ import { VoidBasket } from "./void-basket";
 export const RegistrationPanel: React.FC = () => {
   const count = useBasketStore(state => state.count);
   const screenPrice = useBasketStore(state => state.price);
-  const basketItem = useBasketStore(state => state.basketItem);
-  const addElementToBasketItem = useBasketStore(state => state.addElementToBasketItem);
 
   return (
     <DirectionWrapper direction="row">
