@@ -1,7 +1,6 @@
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import { mockPizzas } from "@/modules/main-page/mock/mock-data-pitza";
-
 interface IBasketItem {
   src: string;
   title: string;
@@ -9,27 +8,36 @@ interface IBasketItem {
   price: number;
   counts: number;
 }
+
 export interface IUseBasketStore {
   basketItem: IBasketItem[];
   sortMode: "price" | "order" | "rating";
+  isClickedOnSortButton: boolean;
   price: number;
   count: number;
   pizza: typeof mockPizzas;
   setChosenPriceProducts: (price: number) => void;
   setChosenCountProducts: () => void;
+  addElementToBasketItem: (item: IBasketItem) => void;
+  increaseCount: (title: string, description: string) => void;
+  decreaseCount: (title: string, description: string) => void;
+  
   sortingPizza: () => void;
   setSortMode: (mode: "price" | "order" | "rating") => void;
   setSortModeKey: () => void;
-  addElementToBasketItem: (item: IBasketItem) => void;
-  increaseCount: (title: string) => void;
-  decreaseCount: (title: string) => void;
+  setIsClickedOnSortButton: () => void;
 }
+
+
 export const useBasketStore = create<IUseBasketStore>()(
   devtools(
     (set, get) => {
       const modes: ("price" | "order" | "rating")[] = ["price", "order", "rating"];
 
-      const sortPizzas = (pizzaList: typeof mockPizzas, mode: "price" | "order" | "rating") => {
+      const sortPizzas = (
+        pizzaList: typeof mockPizzas,
+        mode: "price" | "order" | "rating"
+      ) => {
         return [...pizzaList].sort((a, b) => b[mode] - a[mode]);
       };
 
@@ -41,14 +49,13 @@ export const useBasketStore = create<IUseBasketStore>()(
       };
 
       return {
-
         basketItem: [],
         sortMode: "price",
+        isClickedOnSortButton: 0,
         price: 0,
         count: 0,
         pizza: mockPizzas,
 
-        // 🎯 Методи зміни стану
         setChosenPriceProducts: (price: number) => {
           set((state) => ({ price: state.price + price }));
         },
@@ -57,28 +64,50 @@ export const useBasketStore = create<IUseBasketStore>()(
           set((state) => ({ count: state.count + 1 }));
         },
 
+        setIsClickedOnSortButton: () => {
+          set((state) => ({
+            isClickedOnSortButton: !state.isClickedOnSortButton,
+          }));
+        },
+
         addElementToBasketItem: (item: IBasketItem) => {
           set((state) => {
-            const existingIndex = state.basketItem.findIndex((i) => i.title === item.title);
+            const existingIndex = state.basketItem.findIndex(
+              (i) =>
+                i.title === item.title && i.description === item.description
+            );
             if (existingIndex !== -1) {
-              // Якщо вже є така піца, збільшуємо counts
               const updatedItems = state.basketItem.map((i, idx) =>
-                idx === existingIndex ? { ...i, counts: i.counts + 1 } : i
+                idx === existingIndex
+                  ? { ...i, counts: i.counts + 1 }
+                  : i
               );
-              return { basketItem: updatedItems, count: state.count + 1, price: state.price + item.price };
+              return {
+                basketItem: updatedItems,
+                count: state.count + 1,
+                price: state.price + item.price,
+              };
             } else {
-              // Додаємо нову піцу
-              return { basketItem: [...state.basketItem, { ...item, counts: 1 }], count: state.count + 1, price: state.price + item.price };
+              return {
+                basketItem: [...state.basketItem, { ...item, counts: 1 }],
+                count: state.count + 1,
+                price: state.price + item.price,
+              };
             }
           });
         },
 
-        increaseCount: (title: string) => {
+        increaseCount: (title: string, description: string) => {
           set((state) => {
             const updatedItems = state.basketItem.map((item) =>
-              item.title === title ? { ...item, counts: item.counts + 1 } : item
+              item.title === title && item.description === description
+                ? { ...item, counts: item.counts + 1 }
+                : item
             );
-            const found = state.basketItem.find((item) => item.title === title);
+            const found = state.basketItem.find(
+              (item) =>
+                item.title === title && item.description === description
+            );
             return {
               basketItem: updatedItems,
               count: state.count + 1,
@@ -87,12 +116,17 @@ export const useBasketStore = create<IUseBasketStore>()(
           });
         },
 
-        decreaseCount: (title: string) => {
+        decreaseCount: (title: string, description: string) => {
           set((state) => {
-            const found = state.basketItem.find((item) => item.title === title);
+            const found = state.basketItem.find(
+              (item) =>
+                item.title === title && item.description === description
+            );
             if (!found || found.counts === 0) return {};
             let updatedItems = state.basketItem.map((item) =>
-              item.title === title ? { ...item, counts: item.counts - 1 } : item
+              item.title === title && item.description === description
+                ? { ...item, counts: item.counts - 1 }
+                : item
             );
             updatedItems = updatedItems.filter((item) => item.counts > 0);
             return {
@@ -112,7 +146,6 @@ export const useBasketStore = create<IUseBasketStore>()(
           const currentIndex = modes.indexOf(currentMode);
           const nextIndex = (currentIndex + 1) % modes.length;
           const nextMode = modes[nextIndex];
-
           updateSortMode(nextMode);
         },
 
@@ -120,7 +153,6 @@ export const useBasketStore = create<IUseBasketStore>()(
           const { sortMode, pizza } = get();
           const sorted = sortPizzas(pizza, sortMode);
           set({ pizza: sorted });
-
           setTimeout(() => {
             console.log(get().pizza);
           });

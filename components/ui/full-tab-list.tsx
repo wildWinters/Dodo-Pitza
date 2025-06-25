@@ -16,9 +16,10 @@ export const TabList: React.FC<TabListProps> = ({
   setState,
   mock,
   defaultValue = "small",
+  ...props
 }) => {
   return (
-    <Tabs defaultValue={defaultValue} className={cn("w-full", className)}>
+    <Tabs defaultValue={defaultValue} className={cn("w-full", className)} {...props}>
       <TabsList className="w-full items-center max-h-[35px] bg-[rgba(236,236,236,1)] rounded-[30px] flex justify-center gap-2">
         {mock.map(({ label, value }) => (
           <TabsTrigger

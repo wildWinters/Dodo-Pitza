@@ -1,23 +1,18 @@
 "use client";
-
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Image from "next/image";
 import toast, { Toaster } from "react-hot-toast";
-import { CheckCircle, XCircle, CircleCheck } from "lucide-react";
-
+import { CheckCircle, XCircle, CircleCheck } from "lucide-react"
 import { cn } from "@/lib/utils";
 import { nunito700, nunito600 } from "@/font/fonts";
 import { Button } from "@/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { TabList } from "@/components/ui/full-tab-list";
-
 import { mockSizeTabs } from "@/modules/main-page/mock/mock-size-tabs";
 import { mockDoughTabs } from "./mock-dough-tabs";
 import { mockAdditions } from "@/modules/main-page/mock/mock-addition";
 import { IPizzaPriceBlockProps, SizeMode, DoughType } from "@/modules/main-page/types";
 import { useBasketStore } from "@/store/use-basket-store";
-
-
 
 const showSuccessToast = () =>
   toast.custom((t) => (
@@ -34,7 +29,6 @@ const showErrorToast = () =>
       <p className="font-medium">Оберіть розмір та тісто, будь ласка.</p>
     </div>
   ));
-
 
 
 const usePriceCalculator = (basePrice: number, selected: Set<number>) => {
@@ -89,7 +83,12 @@ const AdditionSelector = ({
           {isSelected && (
             <CircleCheck className="absolute top-1 right-1 w-[28px] h-[28px] text-[rgba(254,95,0,1)]" />
           )}
-          <Image src={item.icon} width={110} height={110} alt={item.name} />
+          <Image
+            src={item.icon}
+            width={110} 
+            height={110}
+            alt={item.name}
+          />
           <span className="text-[12px] text-center">{item.name}</span>
           <span className="text-center">{item.price}</span>
         </div>
@@ -127,7 +126,7 @@ const AddToBasketButton = ({
     </Button>
   );
 };
-
+import { Skeleton } from "@/components/ui/skeleton";
 
 
 export const PizzaPriceBlock: React.FC<IPizzaPriceBlockProps> = ({
@@ -142,14 +141,19 @@ export const PizzaPriceBlock: React.FC<IPizzaPriceBlockProps> = ({
   const [doughType, setDoughType] = useState<DoughType>();
   const [selectedAdditions, setSelectedAdditions] = useState<Set<number>>(new Set());
   const [chosenTopics, setChosenTopics] = useState<Set<string>>(new Set());
+  const [isImitationLoading, setIsImitaionLoading] = useState<boolean>(false);
 
   const addToBasket = useBasketStore((state) => state.addElementToBasketItem);
-  const setChosenPrice = useBasketStore((state) => state.setChosenPriceProducts);
-  const setChosenCount = useBasketStore((state) => state.setChosenCountProducts);
+
+  useEffect(() => {
+    const id = setTimeout(() => {
+      setIsImitaionLoading(true);
+    }, 500); // імітація завантаження
+    return () => clearTimeout(id);
+  }, []);
 
   const totalPrice = usePriceCalculator(price, selectedAdditions);
   const canAdd = !!sizeMode && !!doughType;
-
   const sizeLabel = sizeMode ? { small: "20cm", medium: "30cm", big: "40cm" }[sizeMode] : "";
 
   const toggleAddition = (index: number, name: string) => {
@@ -171,25 +175,29 @@ export const PizzaPriceBlock: React.FC<IPizzaPriceBlockProps> = ({
       chosenTopics.size > 0 ? ` з: ${Array.from(chosenTopics).join(", ")}` : ""
     }`;
 
-    setChosenPrice(totalPrice);
-    setChosenCount();
     addToBasket({
       src,
       title: name,
       description: desc,
       price: totalPrice,
-      counts: 0,
+      counts: 1,
     });
   };
 
   return (
     <div className={cn("flex items-center justify-between rounded-[15px] w-full py-2", className)}>
-      <span className={nunito700.className}>
+      <span className={cn(nunito700.className, !isImitationLoading && "opacity-0")}>
         від {price} <span className="text-[20px]">$</span>
       </span>
 
       <Dialog>
-        <DialogTrigger className="px-3 py-1 text-sm rounded-[8px] border-none text-[rgba(254,95,0,1)] bg-[rgba(255,250,244,1)]">
+        <Skeleton className={cn("w-[120px] h-[36px] rounded-[8px]", isImitationLoading && "hidden")} />
+        <DialogTrigger
+          className={cn(
+            "px-3 py-1 text-sm rounded-[8px] border-none text-[rgba(254,95,0,1)] bg-[rgba(255,250,244,1)]",
+            !isImitationLoading && "hidden"
+          )}
+        >
           {buttonMode}
         </DialogTrigger>
 
@@ -197,21 +205,45 @@ export const PizzaPriceBlock: React.FC<IPizzaPriceBlockProps> = ({
           <PizzaImagePreview src={src} sizeMode={sizeMode} />
 
           <div className="bg-[rgba(244,241,238,1)] flex flex-col gap-[10px] w-[500px] rounded-r-[30px] min-h-[100%] px-[40px]">
-            <span className={`text-[24px] font-[700] ${nunito700.className}`}>{name}</span>
 
-            <span className="text-base text-gray-600 font-normal">
-              {sizeLabel} {doughType} піца
-              {chosenTopics.size > 0 && ` з: ${Array.from(chosenTopics).join(", ")}`}
-            </span>
+            {/* Назва, розмір, тісто */}
+            <div>
+              <Skeleton className={cn("w-[80%] h-[24px] mb-2", isImitationLoading && "hidden")} />
+              <span
+                className={cn(
+                  "text-base text-gray-600 font-normal",
+                  !isImitationLoading && "opacity-0"
+                )}
+              >
+                <span className="text-black text-[25px] font-[800]">{name}</span> {sizeLabel} {doughType}
+                {chosenTopics.size > 0 && ` з: ${Array.from(chosenTopics).join(", ")}`}
+              </span>
+            </div>
 
-            <div className="flex flex-col gap-[10px]">
+            {/* Таблиці розміру та тіста */}
+            <div>
+              <Skeleton className={cn("w-full h-[36px] mb-2", isImitationLoading && "hidden")} />
               <TabList setState={setSizeMode} mock={mockSizeTabs} />
+            </div>
+
+            <div>
+              <Skeleton className={cn("w-full h-[36px] mb-2", isImitationLoading && "hidden")} />
               <TabList setState={setDoughType} mock={mockDoughTabs} />
             </div>
 
+            {/* Додатки */}
             <div className="flex flex-col">
-              <span className={`${nunito600.className} font-[600]`}>Додати по смаку</span>
+              <Skeleton className={cn("w-[40%] h-[20px] mb-2", isImitationLoading && "hidden")} />
+              <span
+                className={cn(nunito600.className, "font-[600]", !isImitationLoading && "opacity-0")}
+              >
+                Додати по смаку
+              </span>
+
+              <Skeleton className={cn("w-full h-[100px] mb-4", isImitationLoading && "hidden")} />
               <AdditionSelector selectedAdditions={selectedAdditions} toggle={toggleAddition} />
+
+              <Skeleton className={cn("w-full h-[40px] mb-2", isImitationLoading && "hidden")} />
               <AddToBasketButton canAdd={canAdd} price={totalPrice} onAdd={handleAdd} />
               <Toaster />
             </div>
