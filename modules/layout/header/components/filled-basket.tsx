@@ -14,6 +14,7 @@ export interface IFilledBasket extends IBasedProps {
 export const FilledBasket: FC<IFilledBasket> = ({ className, price, tax, ...props }) => {
   const priceFromBasket = useBasketStore(state => state.price);
   const basketItem = useBasketStore(state => state.basketItem);
+  console.log(basketItem);
   const paymentTax = typeof priceFromBasket === "number"
     ? (priceFromBasket * 0.05).toFixed(2)
     : "0.00";

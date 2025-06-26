@@ -28,7 +28,7 @@ export const PizzaImageBlock: React.FC<PizzaImageBlockProps> = ({
 
   return (
     <>
-      {!isImageLoaded && <Skeleton className="w-full h-full rounded-[15px]" />}
+      {!isImageLoaded && <Skeleton className=" w-[220px] mx-auto aspect-square  rounded-full" />}
       {isImageLoaded && (
         <div
           className={cn(

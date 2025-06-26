@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/ui/button";
 import Image from "next/image";
 import { ArrowLeft } from "lucide-react";
-
+import { SheetClose } from "@/components/ui/sheet";
 interface VoidBasketProps extends HTMLAttributes<HTMLDivElement> {
   className?: string;
 }
@@ -29,11 +29,12 @@ export const VoidBasket: FC<VoidBasketProps> = ({ className, ...props }) => {
       <p className="max-w-[285px] text-center text-gray-400">
         Добавьте хотя бы одну пиццу, чтобы совершить заказ
       </p>
-
-      <Button className="bg-[rgba(254,95,0,1)] py-4 w-full max-w-[230px] h-[55px] rounded-[18px] mt-8 text-white text-base">
-        <ArrowLeft className="w-[13px] h-[12px] mr-2" />
-        Вернутися назад
-      </Button>
+      <SheetClose>
+        <Button className="bg-[rgba(254,95,0,1)] py-4 w-full max-w-[230px] h-[55px] rounded-[18px] mt-8 text-white text-base">
+          <ArrowLeft className="w-[13px] h-[12px] mr-2" />
+          Вернутися назад
+        </Button>
+      </SheetClose>
     </div>
   );
 };
