@@ -3,13 +3,14 @@ import { useBasketStore } from "@/store/use-basket-store";
 import { nunito700 } from "@/font/fonts";
 import { FC } from "react";
 import { Minus, Plus} from "lucide-react";
-
+import { cn } from "@/lib/utils";
 export interface IPizzazPurchaseBlockProps {
   src?: string;
   title: string;
   description: string;
   price: number | string;
   count: number;
+  className?:string
 }
 
 export const PizzazPurchaseBlock: FC<IPizzazPurchaseBlockProps> = ({
@@ -18,12 +19,12 @@ export const PizzazPurchaseBlock: FC<IPizzazPurchaseBlockProps> = ({
   description,
   price,
   count,
+  className
 }) => { 
   const increaseCount = useBasketStore(state => state.increaseCount);
   const decreaseCount = useBasketStore(state => state.decreaseCount);
-  
   return (
-    <div className="flex flex-col  w-full h-[139px] items-center justify-center">
+    <div className={cn("flex flex-col  w-full h-[139px] items-center justify-center",className)}>
         <div className="gap-[24px]  mt-[20px] w-full flex flex-1 basis-[349px]">
           <Image
             className="rounded-full"

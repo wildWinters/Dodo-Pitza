@@ -1,5 +1,5 @@
 export const mockMenuItems = [
-  { label: "налаштуванння",},
-  { label: "Замовлення" },
-  { label: "Вийти" },
+  { label: "налаштуванння", link:""},
+  { label: "Замовлення", link:'checkout' },
+  { label: "Вийти",link:"/" },
 ];
