@@ -63,21 +63,31 @@ export const MainPizzaListWrapper: React.FC<TypeMainPizzaListWrapper> = ({
               alt={pizza.title}
             />
             <PizzaDescription>
-              <Skeleton
-               className={cn("w-full h-[44px] mb-1", isLoading && "hidden")}
-              />
-              <span
+              <div className="flex flex-col gap-1">
+                <Skeleton
+                  className={cn("w-[150px] h-[30px]", isLoading && "hidden")}
+                />
+                <Skeleton
+                  className={cn("mt-[10px] w-[250px] h-[30px]", isLoading && "hidden")}
+                />
+                <span
                   className={cn(
                     `${nunito700.className} text-black text-left`,
-                    !isLoading && "opacity-0"
+                    !isLoading && "hidden"
                   )}
                 >
                   {pizza.title}
                 </span>
-              <span className={`${nunito400.className} text-[14px] text-[rgba(177,177,177,1)]`}>
-                {pizza.description}
-              </span>
+
+
+                <span
+                  className={`${nunito400.className} text-[14px] text-[rgba(177,177,177,1)] ${!isLoading && "opacity-0"}`}
+                >
+                  {pizza.description}
+                </span>
+              </div>
             </PizzaDescription>
+
             <PizzaPriceBlock
               src={pizza.image}
               price={pizza.price}

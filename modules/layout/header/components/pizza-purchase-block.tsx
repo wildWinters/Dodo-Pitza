@@ -36,27 +36,27 @@ export const PizzazPurchaseBlock: FC<IPizzazPurchaseBlockProps> = ({
           <div className="flex flex-col w-full">
             <div className="flex flex-col">
               <span className={`${nunito700.className} text-[16px]`}>{title}</span>
-              <span className="text-[rgba(161,161,161,1)]">{description}</span>
+              <span style={{ color: 'var(--pizza-description-color)' }}>{description}</span>
             </div>
 
-            <div className="max-w-[260px] h-[1px] bg-[rgba(237,237,237,1)] my-[12px]" />
+            <div className="max-w-[260px] h-[1px] my-[12px]" style={{ backgroundColor: 'var(--pizza-divider-color)' }} />
 
             <div className="flex justify-between items-center">
               <div className="flex gap-[9px] items-center">
                 <div
-                  className="border-2 border-[rgba(254,95,0,1)] flex items-center justify-center w-[30px] h-[30px] rounded-[10px]"
+                  className="border-2 active:bg-[var(--pizza-orange-color)] border-[var(--pizza-orange-color)] flex items-center justify-center w-[30px] h-[30px] rounded-[10px]"
                   onClick={() => decreaseCount(title, description)}
                 >
-                  <Minus className="text-[rgba(254,95,0,1)]" size={15} />
+                  <Minus className="active:text-[var(--pizza-white-color)] text-[var(--pizza-orange-color)]" size={15} />
                 </div>
 
                 <span className={`text-[16px] ${nunito700.className}`}>{count}</span>
 
                 <div
-                  className="border-2 border-[rgba(254,95,0,1)] flex items-center justify-center w-[30px] h-[30px] rounded-[10px]"
+                  className="border-2 active:bg-[var(--pizza-orange-color)] border-[var(--pizza-orange-color)] flex items-center justify-center w-[30px] h-[30px] rounded-[10px]"
                   onClick={() => increaseCount(title, description)}
                 >
-                  <Plus className="text-[rgba(254,95,0,1)]" size={15} />
+                  <Plus className="active:text-[var(--pizza-white-color)] text-[var(--pizza-orange-color)]" size={15} />
                 </div>
               </div>
 

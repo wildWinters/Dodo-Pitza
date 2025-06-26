@@ -76,6 +76,12 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  
+  /* Pizza purchase block colors */
+  --pizza-description-color: rgba(161, 161, 161, 1);
+  --pizza-divider-color: rgba(237, 237, 237, 1);
+  --pizza-orange-color: rgba(254, 95, 0, 1);
+  --pizza-white-color: white;
 }
 
 .dark {

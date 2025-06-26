@@ -186,6 +186,7 @@ export const PizzaPriceBlock: React.FC<IPizzaPriceBlockProps> = ({
 
   return (
     <div className={cn("flex items-center justify-between rounded-[15px] w-full py-2", className)}>
+      <Skeleton className={cn("w-[30%] h-[36px] mb-2", isImitationLoading && "hidden")} />
       <span className={cn(nunito700.className, !isImitationLoading && "opacity-0")}>
         від {price} <span className="text-[20px]">$</span>
       </span>
@@ -206,7 +207,7 @@ export const PizzaPriceBlock: React.FC<IPizzaPriceBlockProps> = ({
 
           <div className="bg-[rgba(244,241,238,1)] flex flex-col gap-[10px] w-[500px] rounded-r-[30px] min-h-[100%] px-[40px]">
 
-            {/* Назва, розмір, тісто */}
+
             <div>
               <Skeleton className={cn("w-[80%] h-[24px] mb-2", isImitationLoading && "hidden")} />
               <span
@@ -220,7 +221,7 @@ export const PizzaPriceBlock: React.FC<IPizzaPriceBlockProps> = ({
               </span>
             </div>
 
-            {/* Таблиці розміру та тіста */}
+
             <div>
               <Skeleton className={cn("w-full h-[36px] mb-2", isImitationLoading && "hidden")} />
               <TabList setState={setSizeMode} mock={mockSizeTabs} />
@@ -231,7 +232,7 @@ export const PizzaPriceBlock: React.FC<IPizzaPriceBlockProps> = ({
               <TabList setState={setDoughType} mock={mockDoughTabs} />
             </div>
 
-            {/* Додатки */}
+
             <div className="flex flex-col">
               <Skeleton className={cn("w-[40%] h-[20px] mb-2", isImitationLoading && "hidden")} />
               <span
