@@ -25,13 +25,8 @@ export default function CatchAllLayout({
   return (
     <html lang="en">
       <body
-        className={`
-          ${geistSans.variable} 
-          ${geistMono.variable} 
-          antialiased 
-          ${isCheckoutPage ? 'bg-[rgba(244,241,238,1)]' : 'bg-white'}
-        `}
-      >
+        className="" 
+      > 
         {!isCheckoutPage && (
           <Header>
             <Header.LogoPanel />
