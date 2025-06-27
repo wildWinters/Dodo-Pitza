@@ -39,8 +39,9 @@ export default function CatchAllLayout({
             <Header.RegistrationPanel />
           </Header>
         )}
-
+      <main className='mx-[60px]'> 
         {children}
+      </main>
       </body>
     </html>
   );
