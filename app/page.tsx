@@ -6,6 +6,7 @@ import { MainComponentsOfTabList } from "@/modules/layout/tab-list/main-componen
 import { useBasketStore } from "@/store/use-basket-store";
 import { useModalStore } from "@/modules/main-page/store/use-active-modal-store";
 
+
 export default function Home() {
   const gridContainerClass = "relative order-2 grid h-[900px] grid-cols-3 auto-rows-auto gap-x-[50px] gap-y-[30px] w-full overflow-auto p-4";
   const isModalOpen = useModalStore(state => state.isModalOpen);

@@ -1,3 +1,4 @@
+// CheckoutLayout.tsx
 import type { Metadata } from 'next';
 import { Header } from '@/modules/layout/header/header';
 
@@ -12,11 +13,8 @@ export default function CheckoutLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <>
-      <body className='bg-[rgba(244,241,238,1)]'>
-        {children} 
-      </body> 
-    </>
+    <div className="bg-[rgba(244,241,238,1)] min-h-screen">
+      {children}
+    </div>
   );
 }
- 

@@ -1,0 +1,38 @@
+export const inputFields = [
+  {
+    label: "Имя",
+    type: "text",
+    value: "Вася",
+    placeholder: "Введите имя",
+    name: "firstName",
+    hasError: false,
+    errorText: "",
+  },
+  {
+    label: "Фамилия",
+    type: "text",
+    value: "",
+    placeholder: "Введите фамилию",
+    name: "lastName",
+    hasError: true,
+    errorText: "Введите вашу фамилию",
+  },
+  {
+    label: "E-Mail",
+    type: "email",
+    value: "vasya@pupkin.ru",
+    placeholder: "example@email.com",
+    name: "email",
+    hasError: false,
+    errorText: "",
+  },
+  {
+    label: "Телефон",
+    type: "tel",
+    value: "+7 (999) 100-20-20",
+    placeholder: "+7 (___) ___-__-__",
+    name: "phone",
+    hasError: false,
+    errorText: "",
+  },
+];

@@ -160,7 +160,6 @@ export const MainComponentFilteredPanel: FC<{ handleInputClick?: () => void }> =
         </div>
       </section>
 
-      {/* === Додаткові фільтри === */}
       <section className="flex flex-col gap-[30px] border-b pb-[20px] border-[rgba(246,246,246,1)]">
         <span className={titleClass}>Filtering</span>
         <div className="flex flex-col gap-[15px]">
@@ -181,7 +180,7 @@ export const MainComponentFilteredPanel: FC<{ handleInputClick?: () => void }> =
         </div>
       </section>
 
-      {/* === Ціна від і до === */}
+
       <section className="mt-5 border-y border-y-neutral-100 py-6 pb-7">
         <p className="font-bold mb-[12px]">Ціна від і до:</p>
         <div className="flex gap-3 mb-5">
@@ -227,7 +226,7 @@ export const MainComponentFilteredPanel: FC<{ handleInputClick?: () => void }> =
         />
       </section>
 
-      {/* === Інгредієнти (Skeleton + Wrapper) === */}
+
       <div className="flex flex-col gap-2 mt-5">
         {[...Array(5)].map((_, i) => (
           <Skeleton
@@ -242,7 +241,7 @@ export const MainComponentFilteredPanel: FC<{ handleInputClick?: () => void }> =
         ingredients={ingredients}
       />
 
-      {/* === Тип Теста (Radio блоки) === */}
+
       <section className="mt-[42px]">
         <span className={subtitleClass}>Тип Теста</span>
         <div className="flex flex-col gap-2 mt-2">
