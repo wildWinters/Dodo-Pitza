@@ -44,7 +44,7 @@ export default function CheckoutPage() {
           <PersonalInfoForm inputFields={inputFields} onChange={handleInputChange} />
         </div>
         <SummaryBlock total={total} />
-      </div>
+      </div> 
     </main>
   );
 }

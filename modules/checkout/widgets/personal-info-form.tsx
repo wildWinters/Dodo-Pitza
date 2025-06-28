@@ -1,7 +1,10 @@
 import { nunito800 } from "@/font/fonts";
-import { Label } from "@radix-ui/react-dropdown-menu";
 import { Input } from "@/ui/input";
-import { type InputField  } from "../types/type";
+import { type InputField } from "../types/type";
+import { Label } from "@radix-ui/react-dropdown-menu";
+import {z} from "zod"
+import  {zodResolver} from "@hookform/resolvers/zod"
+import  {useForm} from "react-hook-form"
 
 
 export const PersonalInfoForm = ({
@@ -13,16 +16,19 @@ export const PersonalInfoForm = ({
 }) => {
   return (
     <form className="bg-white rounded-[30px] px-[35px] py-[30px] w-full max-w-[752px]">
-      <h2 className={`text-[30px] mb-4 ${nunito800.className}`}>
+      <span className={`text-[30px] mb-4 ${nunito800.className}`}>
         2. Персональна інформація
-      </h2>
+      </span>
       <div className="grid grid-cols-2 gap-[26px]">
         {inputFields.map((field) => (
           <div
             key={field.name}
             className="flex flex-col gap-[5px] max-w-[328px] w-full"
           >
-            <Label htmlFor={field.name} className="text-[14px] font-semibold">
+            <Label
+              htmlFor={field.name}
+              className="text-[14px] font-semibold"
+            >
               {field.label}
             </Label>
             <Input

@@ -3,7 +3,9 @@ import { nunito800 } from "@/font/fonts";
 import { infoItems } from "../mock/mock-info-items";
 import { FC } from "react";
 
-export const SummaryBlock:FC<{total:number}> = ({ total }) => {
+export const SummaryBlock: FC<{ total: number }> = ({ total }) => {
+  const prices = [total, total  / 100 * 5, "chidori nagashi"];
+  
   return (
     <section className="px-[44px] py-[40px] bg-white rounded-[30px] max-h-[490px] max-w-[450px] w-full">
       <div className="flex flex-col gap-[20px]">
@@ -12,11 +14,14 @@ export const SummaryBlock:FC<{total:number}> = ({ total }) => {
       </div>
 
       <div className="flex flex-col gap-[15px] my-[30px]">
-        {infoItems.map(({ label, icon: Icon }) => (
-          <span key={label} className="flex items-center gap-2">
-            {Icon && <Icon className="w-4 h-4" />}
-            {label}
-          </span>
+        {infoItems.map(({ label, icon: Icon }, index) => (
+          <div key={label} className="flex items-center justify-between text-[17px] font-medium text-black">
+            <span className="flex items-center gap-2">
+              {Icon && <Icon className="w-4 h-4" />}
+              {label}
+            </span>
+            <span className="font-bold">{prices[index]}</span>
+          </div>
         ))}
       </div>
 
